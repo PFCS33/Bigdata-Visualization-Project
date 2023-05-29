@@ -78,6 +78,7 @@ export default {
         "processed_signalroad_with9road.geojson",
         "processed_stoplineroad_with9road.geojson",
       ],
+      // fileNames: ["test.geojson"],
       selectedMaps: [],
       dataSet: [],
     };
@@ -106,15 +107,20 @@ export default {
     },
   },
   computed: {
+    /* -------------------------------------------------------------------------- */
+    // 传送进入map的数据
+    /* -------------------------------------------------------------------------- */
     getDrawData() {
       let dataSum = [];
       this.dataSet.forEach((data) => {
         //console.log(data);
+        //传入的data是完整的geojson结构
         if (this.selectedMaps.includes(data.name)) {
           dataSum.push(data);
         }
       });
       //console.log(dataSum);
+      console.log(dataSum);
       return dataSum;
     },
     showMap() {

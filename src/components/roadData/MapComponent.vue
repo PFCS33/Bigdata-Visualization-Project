@@ -4,11 +4,13 @@
     <div class="container">
       <svg class="map"></svg>
     </div>
+    <div class="tooltip"></div>
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
+
 export default {
   props: ["dataParam"],
   data() {
@@ -58,13 +60,18 @@ export default {
       // 创建一个线性比例尺来将局部坐标映射到屏幕像素坐标
       const xScale = d3.scaleLinear().domain(xExtent).range([0, width]);
       const yScale = d3.scaleLinear().domain(yExtent).range([0, height]);
+      console.log(width, height);
       const colorList = {
-        boundary: "#c92a2a",
-        crosswalk: "#087f5b",
-        lane: "#0b7285",
-        signal: "#7950f2",
-        stopline: "#fab005",
+        boundary: "#fd7e14",
+        crosswalk: "#40c057",
+        lane: "#4c6ef5",
+        signal: "#FF00FF",
+        stopline: "#be4bdb",
       };
+      const selectedColor = "#c92a2a";
+      // 创建一个 div 元素作为提示框容器
+      const tooltip = d3.select(".tooltip").style("opacity", 0);
+
       // 绘制地理路径
       dataList.forEach((data) => {
         const type = data.features[0].geometry.type;
@@ -88,7 +95,34 @@ export default {
             .style("fill", "none")
             .style("stroke", color)
             .style("stroke-width", 0.4)
-            .attr("pointer-events", "all");
+            .attr("pointer-events", "all")
+            .style("cursor", "pointer")
+            .on("mouseover", function (event, d) {
+              //颜色变黑，表示被选中
+              d3.select(this).style("stroke", selectedColor);
+              // 获取属性值
+              const properties = d.properties;
+              // 创建包含属性值的 HTML 字符串
+              let html = "";
+              for (const key in properties) {
+                if (Object.prototype.hasOwnProperty.call(properties, key)) {
+                  const value = properties[key];
+                  html += `<p>${key}: ${value}</p>`;
+                }
+              }
+              // 在提示框中显示属性值
+              tooltip.transition().duration(200).style("opacity", 0.9);
+              tooltip
+                .html(html)
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 10 + "px");
+            })
+            .on("mouseout", function () {
+              //恢复颜色
+              d3.select(this).style("stroke", color);
+              // 隐藏提示框
+              tooltip.transition().duration(500).style("opacity", 0);
+            });
         } else if (type == "Polygon") {
           // 绘制地理多边形
           svg
@@ -107,7 +141,34 @@ export default {
             })
             .style("fill", "none")
             .style("stroke", color)
-            .attr("pointer-events", "all");
+            .attr("pointer-events", "all")
+            .style("cursor", "pointer")
+            .on("mouseover", function (event, d) {
+              //颜色变黑，表示被选中
+              d3.select(this).style("stroke", selectedColor);
+              // 获取属性值
+              const properties = d.properties;
+              // 创建包含属性值的 HTML 字符串
+              let html = "";
+              for (const key in properties) {
+                if (Object.prototype.hasOwnProperty.call(properties, key)) {
+                  const value = properties[key];
+                  html += `<p>${key}: ${value}</p>`;
+                }
+              }
+              // 在提示框中显示属性值
+              tooltip.transition().duration(200).style("opacity", 0.9);
+              tooltip
+                .html(html)
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 10 + "px");
+            })
+            .on("mouseout", function () {
+              //恢复颜色
+              d3.select(this).style("stroke", color);
+              // 隐藏提示框
+              tooltip.transition().duration(500).style("opacity", 0);
+            });
         } else if (type == "Point") {
           // 绘制地理点
           svg
@@ -129,14 +190,41 @@ export default {
             .style("fill", "none")
             .style("stroke", color)
             .style("stroke-width", 0.5)
-            .attr("pointer-events", "all");
+            .attr("pointer-events", "all")
+            .style("cursor", "pointer")
+            .on("mouseover", function (event, d) {
+              //颜色变黑，表示被选中
+              d3.select(this).style("stroke", selectedColor);
+              // 获取属性值
+              const properties = d.properties;
+              // 创建包含属性值的 HTML 字符串
+              let html = "";
+              for (const key in properties) {
+                if (Object.prototype.hasOwnProperty.call(properties, key)) {
+                  const value = properties[key];
+                  html += `<p>${key}: ${value}</p>`;
+                }
+              }
+              // 在提示框中显示属性值
+              tooltip.transition().duration(200).style("opacity", 0.9);
+              tooltip
+                .html(html)
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 10 + "px");
+            })
+            .on("mouseout", function () {
+              //恢复颜色
+              d3.select(this).style("stroke", color);
+              // 隐藏提示框
+              tooltip.transition().duration(500).style("opacity", 0);
+            });
         }
       });
       const group = svg.selectAll("g");
       // 创建缩放函数
       const zoom = d3
         .zoom()
-        .scaleExtent([0.5, 9]) // 设置缩放的范围
+        .scaleExtent([0.5, 20]) // 设置缩放的范围
         .translateExtent([
           [0, 0],
           [width, height],
@@ -151,7 +239,7 @@ export default {
         .append("input")
         .attr("type", "range")
         .attr("min", 0.5)
-        .attr("max", 9)
+        .attr("max", 20)
         .attr("step", 0.05)
         .attr("value", 1)
         .on("input", function () {
@@ -183,6 +271,18 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: fixed;
+  width: fit-content;
+  height: fit-content; /* 设置高度 */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  font-size: 1vw;
+  background-color: #fff;
+  padding: 1vw;
+  pointer-events: none;
+}
 .box {
   height: 100%;
   display: flex;
