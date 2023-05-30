@@ -51,11 +51,29 @@
         />
         <label for="stopline">stopline</label>
       </div>
+
+      <div class="form-control">
+        <input
+          type="roadSec"
+          id="roadSec"
+          :min="0"
+          :max="134"
+          placeholder="[0,134]"
+          v-model="roadSec"
+          @input="handleInput"
+          class="number-input-box"
+        />
+        <label for="roadSec">路段</label>
+      </div>
       <BaseButton @click="resetData" class="btn"> 重置</BaseButton>
       <BaseButton @click="setAllData" class="btn"> 全选</BaseButton>
     </BaseCard>
     <BaseCard class="map-container">
-      <MapComponent v-if="showMap" :dataParam="getDrawData"></MapComponent>
+      <MapComponent
+        v-if="showMap"
+        :dataParam="getDrawData"
+        :roadSec="roadSec"
+      ></MapComponent>
     </BaseCard>
   </div>
 </template>
@@ -81,6 +99,7 @@ export default {
       // fileNames: ["test.geojson"],
       selectedMaps: [],
       dataSet: [],
+      roadSec: 0,
     };
   },
   methods: {
@@ -104,6 +123,14 @@ export default {
         "signal",
         "stopline",
       ];
+    },
+    handleInput() {
+      // 根据范围调整选择的数字
+      if (this.roadSec < 0) {
+        this.roadSec = 0;
+      } else if (this.roadSec > 134) {
+        this.roadSec = 134;
+      }
     },
   },
   computed: {
@@ -159,5 +186,9 @@ export default {
   flex: 1 1 auto;
   margin: 1vw;
   padding: 1vw;
+}
+
+.number-input-box {
+  width: 3vw;
 }
 </style>
