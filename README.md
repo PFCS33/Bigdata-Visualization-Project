@@ -21,7 +21,7 @@ npm run serve
 
 - 成功后直接在浏览器进入local url即可
 
-<img src="C:\Users\11731\AppData\Roaming\Typora\typora-user-images\image-20230526232354791.png" alt="image-20230526232354791" style="zoom:67%;" align="left"/>
+<img src="./img/1.png" style="zoom:67%;" align="left"/>
 
 ## 代码
 
@@ -37,14 +37,14 @@ npm run serve
 │
 ├─components
 │  ├─roadData
-│  │      *MapComponent.vue 
+│  │      *MapComponent.vue
 │  │
 │  └─ui
 │          BaseButton.vue
 │          BaseCard.vue
 │
 └─pages
-        *RoadMap.vue  
+        *RoadMap.vue
         WelcomePage.vue
 ```
 
@@ -52,12 +52,33 @@ npm run serve
 
 ## 效果：
 
-- 可缩放，拖动
+- 初版
 
-- 可多选显示
+  - 可缩放，拖动
 
-- 不同类别颜色区分
+  - 可多选显示
 
-- 动图展示
+  - 不同类别颜色区分
 
-  ![20230527001545_rec_](C:\Users\11731\AppData\Roaming\LarkShell\screenshot\20230527001545_rec_.gif)
+  - 动图展示
+
+    ![Version1](/img/show1.gif)
+
+- 2版
+
+  - 增加鼠标hover效果
+
+    - 显示消息框展示properties
+    - 对应元素变色，好观察
+
+  - 动图展示
+
+    ![Version2](./img/show2.gif)
+
+- 3版
+
+  - 增加对road_sec_id属性的突出显示
+
+  - 改变’路段”的值进行选择，范围为 [0,134], 0 表示全选
+
+    ![Version3](./img/show3.gif)
