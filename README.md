@@ -21,7 +21,7 @@ npm run serve
 
 - 成功后直接在浏览器进入local url即可
 
-<img src="./img/1.png" style="zoom:67%;" align="left"/>
+![runProject](/img/1.png)
 
 <br>
 
