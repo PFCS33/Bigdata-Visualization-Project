@@ -23,7 +23,7 @@ npm run serve
 
 <img src="./img/1.png" style="zoom:67%;" align="left"/>
 
-
+<br>
 
 ## 代码
 
