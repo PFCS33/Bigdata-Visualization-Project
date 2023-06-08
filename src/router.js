@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import WelcomePage from "./pages/WelcomePage.vue";
 import RoadMap from "./pages/RoadMap.vue";
+import HeatMap from "./pages/HeatMap.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,6 +18,10 @@ const router = createRouter({
     {
       path: "/roadmap",
       component: RoadMap,
+    },
+    {
+      path: "/heatmap",
+      component: HeatMap,
     },
   ],
 });

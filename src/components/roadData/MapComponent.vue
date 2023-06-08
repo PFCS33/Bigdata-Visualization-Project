@@ -159,6 +159,7 @@ export default {
       const svg = d3.select(".map");
       const width = parseInt(svg.style("width"), 10);
       const height = parseInt(svg.style("height"), 10);
+      console.log(width, height);
       svg.selectAll("g").remove();
       d3.select(".input-box input").remove();
 
@@ -169,7 +170,6 @@ export default {
         roadSec = this.mapping.get(roadSec);
       }
       console.log(roadSec);
-      //console.log(width, height);
 
       // const xExtent = [Infinity, -Infinity];
       // const yExtent = [Infinity, -Infinity];

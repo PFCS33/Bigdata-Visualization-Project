@@ -3,6 +3,7 @@
     <h1>可视化数据展示</h1>
     <BaseCard class="box">
       <BaseButton link to="/roadmap" class="btn">道路数据</BaseButton>
+      <BaseButton link to="/heatmap" class="btn">热力图</BaseButton>
     </BaseCard>
   </div>
 </template>
@@ -20,6 +21,7 @@
   flex-direction: column;
   width: 30vw;
   height: 30vw;
+  gap: 1vw;
 }
 
 h1 {
@@ -31,5 +33,6 @@ h1 {
 .btn {
   border-radius: 8px;
   text-align: center;
+  padding: 0.9vw;
 }
 </style>

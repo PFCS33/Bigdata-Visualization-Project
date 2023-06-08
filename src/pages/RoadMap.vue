@@ -67,6 +67,13 @@
       </div>
       <BaseButton @click="resetData" class="btn"> 重置</BaseButton>
       <BaseButton @click="setAllData" class="btn"> 全选</BaseButton>
+
+      <BaseButton
+        @click="$router.push('/welcome')"
+        class="btn"
+        style="margin-left: auto"
+        >返回</BaseButton
+      >
     </BaseCard>
     <BaseCard class="map-container">
       <MapComponent
