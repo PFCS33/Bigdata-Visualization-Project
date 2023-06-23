@@ -54,7 +54,7 @@
 
       <div class="form-control">
         <input
-          type="roadSec"
+          type="number"
           id="roadSec"
           :min="0"
           :max="134"

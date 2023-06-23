@@ -1,9 +1,21 @@
 <template>
   <div class="container">
-    <BaseCard class="nav"> </BaseCard>
+    <BaseCard class="nav">
+      <BaseButton class="btn" @click="mode = 0">单张静态图</BaseButton>
+      <input
+        v-model="selectedHour"
+        type="number"
+        min="0"
+        max="8"
+        @input="handleInput"
+      />
+      <BaseButton class="btn" @click="mode = 1">连续动图</BaseButton>
+    </BaseCard>
     <BaseCard class="map-container">
       <HeatMapComponent
         v-if="showMap"
+        :mode="mode"
+        :selectedHour="selectedHour"
         :dataParam="getDrawData"
       ></HeatMapComponent>
     </BaseCard>
@@ -20,9 +32,11 @@ export default {
   data() {
     return {
       fileNamePrefix: "heatmap_data_time",
-      hourNum: 1, //图个数
+      hourNum: 9, //图个数
       dataSet: [],
       showMap: false,
+      mode: 1,
+      selectedHour: 0,
     };
   },
   methods: {
@@ -33,12 +47,21 @@ export default {
         this.dataSet.push(data);
       }
     },
+    handleInput() {
+      // 根据范围调整选择的数字
+      if (this.selectedHour < 0) {
+        this.selectedHour = 0;
+      } else if (this.selectedHour > 8) {
+        this.selectedHour = 8;
+      }
+    },
   },
   computed: {
     getDrawData() {
-      const rest = this.dataSet[0];
+      //const rest = this.dataSet[0];
       //console.log("rest", rest);
-      return rest;
+    
+      return this.dataSet;
     },
   },
   async created() {
@@ -64,5 +87,9 @@ export default {
   flex: 1 1 auto;
   margin: 1vw;
   padding: 1vw;
+}
+
+.btn {
+  border-radius: 6px;
 }
 </style>
