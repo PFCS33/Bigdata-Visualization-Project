@@ -142,27 +142,20 @@
           ></path>
         </svg>
       </button>
-      <transition name="map">
-        <MapComponent
-          v-if="loadDone"
-          :editMode="editMode"
-          :dataParam="drawData"
-          :roadSec="roadSec"
-        ></MapComponent>
-      </transition>
+
+      <MapComponent
+        v-if="loadDone"
+        :editMode="editMode"
+        :dataParam="drawData"
+        :roadSec="roadSec"
+      ></MapComponent>
     </BaseCard>
-    <div class="view-box1" v-show="queueMode">
-      <QueueChart
-        v-if="queueMode && animationDone"
-        @updatePiechart="updatePiechart"
-      ></QueueChart>
-    </div>
-    <div class="view-box2" v-show="queueMode">
-      <QueuePiechart
-        v-if="queueMode && animationDone"
-        :piechartData="piechartData"
-      ></QueuePiechart>
-    </div>
+    <BaseCard class="view-box1">
+      <QueueChart v-if="queueMode && animationDone"></QueueChart>
+    </BaseCard>
+    <BaseCard class="view-box2">
+      <QueuePiechart v-if="queueMode && animationDone"></QueuePiechart>
+    </BaseCard>
     <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
       <svg
         t="1687527159523"
@@ -221,7 +214,6 @@ export default {
       showMap: false,
       drawData: null,
       loadDone: false,
-      piechartData: [],
       animationDone: false,
     };
   },
@@ -308,11 +300,7 @@ export default {
       this.queueMode = !this.queueMode;
       this.animationDone = false;
     },
-    updatePiechart(payload) {
-      console.log(payload);
-      this.piechartData = payload;
-      console.log(payload);
-    },
+
     handleTransitionEnd(event) {
       if (event.target === this.$el) {
         // 动画结束后执行相关操作，比如创建图表
@@ -350,16 +338,18 @@ export default {
 
 .container.queue-mode {
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1.5fr 1fr;
+  gap: 1vw;
+  padding: 1vw 1vw;
 }
 
 .view-box1 {
   grid-row: 1/-1;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
 }
 
 .view-box2 {
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
   grid-row: 1;
   grid-column: 2;
 }
@@ -401,6 +391,9 @@ export default {
   grid-column: 2;
 }
 
+.map-container.queue-mode {
+  /* transform: scale(1.2); */
+}
 .menu {
   /* margin: 1vw; */
   display: flex;

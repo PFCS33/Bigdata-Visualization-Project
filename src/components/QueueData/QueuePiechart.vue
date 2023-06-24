@@ -5,25 +5,28 @@
 <script>
 import * as echarts from "echarts";
 export default {
-  props: ["piechartData"],
   data() {
     return {
       piechart: null,
     };
   },
+  computed: {
+    piechartData() {
+      return this.$store.getters["queue/piechartData"];
+    },
+    selected() {
+      return this.$store.getters["queue/selected"];
+    },
+  },
   watch: {
     piechartData(newValue) {
-      const data = newValue.data;
-      const selected = newValue.selected;
-
-      if (data) {
-        this.updatePieChart(data);
-      }
-      if (selected) {
-        this.piechart.setOption({
-          legend: { selected: selected },
-        });
-      }
+      //console.log("valueChange");
+      this.updatePieChart(newValue);
+    },
+    selected(newValue) {
+      this.piechart.setOption({
+        legend: { selected: newValue },
+      });
     },
   },
   methods: {
@@ -54,7 +57,8 @@ export default {
         },
         legend: {
           orient: "horizontal",
-          left: 0,
+
+          left: 10,
           data: [
             "type1_num",
             "type10_num",
@@ -65,9 +69,10 @@ export default {
         },
         series: [
           {
+            top: 20,
             name: "percent",
             type: "pie",
-            radius: [0, 110],
+            radius: [0, 100],
             avoidLabelOverlap: true,
             label: {
               show: true,
@@ -105,7 +110,8 @@ export default {
 
 <style scoped>
 #pie-chart {
-  border: 1px solid #000;
+  margin-top: 1vw;
+  /* border: 1px solid #000; */
   grid-column: 2;
   grid-row: 1;
   height: 100%;
