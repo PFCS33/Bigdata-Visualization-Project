@@ -1,10 +1,11 @@
 <template>
   <div class="box">
-    <div class="input-box"></div>
-    <div class="container">
+    <div id="roadmapContainer" class="container">
       <svg class="map"></svg>
     </div>
-    <div class="tooltip"></div>
+
+    <div class="input-box"></div>
+    <div class="tooltip" v-show="editMode"></div>
   </div>
 </template>
 
@@ -12,7 +13,8 @@
 import * as d3 from "d3";
 
 export default {
-  props: ["dataParam", "roadSec"],
+  props: ["dataParam", "roadSec", "editMode"],
+  inject: ["setShowMap"],
   data() {
     return {
       mapping: new Map([
@@ -154,14 +156,143 @@ export default {
     };
   },
   methods: {
-    drawMap(dataList, roadSecId) {
+    drawROMap(dataList) {
+      // console.log("this is ROmap");
       // 获取 SVG 元素的宽度和高度
       const svg = d3.select(".map");
       const width = parseInt(svg.style("width"), 10);
       const height = parseInt(svg.style("height"), 10);
-      console.log(width, height);
       svg.selectAll("g").remove();
-      d3.select(".input-box input").remove();
+
+      // const container = d3.select("#roadmapContainer");
+      // container.select("svg").remove();
+      // const spanElement = container.select(".placeholder").node();
+      // // 创建新的svg元素
+      // const svgElement = document.createElementNS(
+      //   "http://www.w3.org/2000/svg",
+      //   "svg"
+      // );
+      // svgElement.setAttribute("width", "100%");
+      // svgElement.setAttribute("height", "100%");
+      // spanElement.parentNode.insertBefore(svgElement, spanElement);
+
+      // const svg = container.select("svg");
+      // const width = parseInt(svg.style("width"), 10);
+      // const height = parseInt(svg.style("height"), 10);
+
+      // 为了多个map能在一个地图里显示，采用统一的映射比例
+      const xExtent = [-580, 450];
+      const yExtent = [-650, 250];
+      // console.log(`x: [${xExtent}]`);
+      //console.log(`y:[${yExtent}]`);
+      // 创建一个线性比例尺来将局部坐标映射到屏幕像素坐标
+      const xScale = d3.scaleLinear().domain(xExtent).range([0, width]);
+      const yScale = d3.scaleLinear().domain(yExtent).range([0, height]);
+      //console.log(width, height);
+      const colorList = {
+        boundary: "#fd7e14",
+        crosswalk: "#40c057",
+        lane: "#4c6ef5",
+        signal: "#FF00FF",
+        stopline: "#be4bdb",
+      };
+
+      // 绘制地理路径
+      dataList.forEach((data) => {
+        const type = data.features[0].geometry.type;
+        const color = colorList[data.name];
+        const name = data.name;
+        //console.log(type);
+        if (type == "LineString") {
+          svg
+            .append("g")
+            .selectAll("path")
+            .data(data.features)
+            .join("path")
+            .attr("d", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const pathData = coordinates.map(function (coord) {
+                const x = xScale(coord[0]);
+                const y = yScale(coord[1]);
+                return [x, y];
+              });
+              return "M" + pathData.join("L");
+            })
+            .style("fill", "none")
+            .style("stroke", color)
+            .style("stroke-width", 0.4)
+            .attr("pointer-events", "all");
+        } else if (type == "Polygon") {
+          // 绘制地理多边形
+          svg
+            .append("g")
+            .selectAll("polygon")
+            .data(data.features)
+            .join("polygon")
+            .attr("points", function (feature) {
+              const coordinates = feature.geometry.coordinates[0];
+              const points = coordinates.map(function (coord) {
+                const x = xScale(coord[0]);
+                const y = yScale(coord[1]);
+                return [x, y];
+              });
+              return points.join(" ");
+            })
+            .style("fill", "none")
+            .style("stroke", color)
+            .attr("pointer-events", "all");
+        } else if (type == "Point") {
+          // 绘制地理点
+          svg
+            .append("g")
+            .selectAll("circle")
+            .data(data.features)
+            .join("circle")
+            .attr("cx", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const x = xScale(coordinates[0]);
+              return x;
+            })
+            .attr("cy", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const y = yScale(coordinates[1]);
+              return y;
+            })
+            .attr("r", 1)
+            .style("fill", "none")
+            .style("stroke", color)
+            .style("stroke-width", 0.5)
+            .attr("pointer-events", "all");
+        }
+      });
+
+      // const group = svg.selectAll("g");
+    },
+
+    drawMap(dataList, roadSecId) {
+      // console.log("this is editmap!!!");
+      // 获取 SVG 元素的宽度和高度
+      const svg = d3.select(".map");
+      const width = parseInt(svg.style("width"), 10);
+      const height = parseInt(svg.style("height"), 10);
+      //console.log(width, height);
+      svg.selectAll("g").remove();
+
+      // const container = d3.select("#roadmapContainer");
+      // container.select("svg").remove();
+      // const spanElement = container.select(".placeholder").node();
+      // // 创建新的svg元素
+      // const svgElement = document.createElementNS(
+      //   "http://www.w3.org/2000/svg",
+      //   "svg"
+      // );
+      // svgElement.setAttribute("width", "100%");
+      // svgElement.setAttribute("height", "100%");
+      // spanElement.parentNode.insertBefore(svgElement, spanElement);
+
+      // const svg = container.select("svg");
+      // const width = parseInt(svg.style("width"), 10);
+      // const height = parseInt(svg.style("height"), 10);
 
       let roadSec = parseInt(roadSecId);
       if (roadSec === 0) {
@@ -169,7 +300,7 @@ export default {
       } else {
         roadSec = this.mapping.get(roadSec);
       }
-      console.log(roadSec);
+      //console.log(roadSec);
 
       // const xExtent = [Infinity, -Infinity];
       // const yExtent = [Infinity, -Infinity];
@@ -200,12 +331,12 @@ export default {
       // 为了多个map能在一个地图里显示，采用统一的映射比例
       const xExtent = [-580, 450];
       const yExtent = [-650, 250];
-      console.log(`x: [${xExtent}]`);
-      console.log(`y:[${yExtent}]`);
+      //  console.log(`x: [${xExtent}]`);
+      //console.log(`y:[${yExtent}]`);
       // 创建一个线性比例尺来将局部坐标映射到屏幕像素坐标
       const xScale = d3.scaleLinear().domain(xExtent).range([0, width]);
       const yScale = d3.scaleLinear().domain(yExtent).range([0, height]);
-      console.log(width, height);
+      // console.log(width, height);
       const colorList = {
         boundary: "#fd7e14",
         crosswalk: "#40c057",
@@ -214,7 +345,7 @@ export default {
         stopline: "#be4bdb",
       };
       const selectedColor = "#c92a2a";
-      // 创建一个 div 元素作为提示框容器
+      // 选择一个 div 元素作为提示框容器
       const tooltip = d3.select(".tooltip").style("opacity", 0);
 
       // 绘制地理路径
@@ -453,15 +584,32 @@ export default {
   },
   watch: {
     dataParam(newDataParam) {
-      this.drawMap(newDataParam, this.roadSec);
+      console.log("data change");
+      if (this.editMode === true) {
+        console.log("data real change");
+        this.drawMap(newDataParam, this.roadSec);
+      } else {
+        this.drawROMap(newDataParam);
+      }
+      //  this.setShowMap();
+      // } else {
+      //   this.drawROMap(newDataParam);
+      // }
     },
     roadSec(newRoadSec) {
-      this.drawMap(this.dataParam, newRoadSec);
+      if (this.editMode === true) {
+        this.drawMap(this.dataParam, newRoadSec);
+      }
     },
   },
 
   mounted() {
-    this.drawMap(this.dataParam);
+    console.log(this.editMode);
+    if (this.editMode === true) {
+      this.drawMap(this.dataParam);
+    } else {
+      this.drawROMap(this.dataParam);
+    }
   },
 };
 </script>
@@ -493,6 +641,11 @@ export default {
 }
 .input-box {
   width: 15%;
+  margin-left: auto;
+  position: fixed;
+  right: 1%;
+  bottom: 10%;
+  display: none;
 }
 
 .map {

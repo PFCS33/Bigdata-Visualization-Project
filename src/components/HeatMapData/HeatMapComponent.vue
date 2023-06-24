@@ -174,10 +174,12 @@ export default {
 
       dataParam.forEach((data) => {
         const value = data.value * 1e6;
+        //const value = 1;
         let point = {
           x: Math.round(xScale(data.x)),
           y: Math.round(yScale(data.y)),
           value: value,
+          //radius: 2,
           radius: 2,
         };
         maxValue = Math.max(maxValue, value);

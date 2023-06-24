@@ -3,9 +3,10 @@ import App from "./App.vue";
 import router from "./router.js";
 import BaseCard from "./components/ui/BaseCard.vue";
 import BaseButton from "./components/ui/BaseButton.vue";
-
+import FancyButton from "./components/ui/FancyButton.vue";
 const app = createApp(App);
 app.use(router);
 app.component("BaseCard", BaseCard);
 app.component("BaseButton", BaseButton);
+app.component("FancyButton", FancyButton);
 app.mount("#app");

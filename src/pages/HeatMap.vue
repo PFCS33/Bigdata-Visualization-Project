@@ -35,7 +35,7 @@ export default {
       hourNum: 9, //图个数
       dataSet: [],
       showMap: false,
-      mode: 1,
+      mode: 0,
       selectedHour: 0,
     };
   },
@@ -60,7 +60,7 @@ export default {
     getDrawData() {
       //const rest = this.dataSet[0];
       //console.log("rest", rest);
-    
+
       return this.dataSet;
     },
   },
