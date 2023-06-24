@@ -1,5 +1,9 @@
 <template>
-  <div class="container" :class="{ 'queue-mode': queueMode }">
+  <div
+    class="container"
+    :class="{ 'queue-mode': queueMode }"
+    @transitionend="handleTransitionEnd"
+  >
     <transition name="nav">
       <div class="nav" v-if="!editMode && !queueMode">
         <button class="menu-btn" @click="toggleEditMode" color="#333333">
@@ -148,13 +152,17 @@
       </transition>
     </BaseCard>
     <div class="view-box1" v-show="queueMode">
-      <QueueChart></QueueChart>
+      <QueueChart
+        v-if="queueMode && animationDone"
+        @updatePiechart="updatePiechart"
+      ></QueueChart>
     </div>
     <div class="view-box2" v-show="queueMode">
-      <QueuePiechart></QueuePiechart>
+      <QueuePiechart
+        v-if="queueMode && animationDone"
+        :piechartData="piechartData"
+      ></QueuePiechart>
     </div>
-    <!-- <div class="queueBox1" :class="{ 'queue-mode': queueMode }">View1</div>
-    <div class="queueBox2" :class="{ 'queue-mode': queueMode }">View2</div> -->
     <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
       <svg
         t="1687527159523"
@@ -213,6 +221,8 @@ export default {
       showMap: false,
       drawData: null,
       loadDone: false,
+      piechartData: [],
+      animationDone: false,
     };
   },
   methods: {
@@ -296,6 +306,19 @@ export default {
     },
     toggleQueueMode() {
       this.queueMode = !this.queueMode;
+      this.animationDone = false;
+    },
+    updatePiechart(payload) {
+      console.log(payload);
+      this.piechartData = payload;
+      console.log(payload);
+    },
+    handleTransitionEnd(event) {
+      if (event.target === this.$el) {
+        // 动画结束后执行相关操作，比如创建图表
+        this.animationDone = true;
+        console.log("animationDone");
+      }
     },
   },
   watch: {
