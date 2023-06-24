@@ -1,3 +1,3 @@
 <template>
-  <h1>This is title</h1>
+  <h1>BigData VS</h1>
 </template>

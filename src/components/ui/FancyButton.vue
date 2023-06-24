@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :color="color">
+  <button class="button" :style="{ color: color }">
     <slot> </slot>
     <div class="button__horizontal"></div>
     <div class="button__vertical"></div>

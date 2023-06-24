@@ -610,6 +610,12 @@ export default {
     } else {
       this.drawROMap(this.dataParam);
     }
+    const svg = d3.select(".map");
+    const width = parseInt(svg.style("width"), 10);
+    const height = parseInt(svg.style("height"), 10);
+    svg
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet");
   },
 };
 </script>

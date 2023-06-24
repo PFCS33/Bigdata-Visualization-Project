@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container" :class="{ 'queue-mode': queueMode }">
     <transition name="nav">
-      <div class="nav" v-if="!editMode">
+      <div class="nav" v-if="!editMode && !queueMode">
         <button class="menu-btn" @click="toggleEditMode" color="#333333">
           <div class="menu-btn-content">
             <svg
@@ -38,6 +38,9 @@
             <span> Menu </span>
           </div>
         </button>
+        <FancyButton :color="'#96f2d7'" @click="toggleQueueMode"
+          >排队车辆</FancyButton
+        >
         <div class="title">
           <Title></Title>
         </div>
@@ -144,6 +147,31 @@
         ></MapComponent>
       </transition>
     </BaseCard>
+    <div class="view-box1" v-show="queueMode">
+      <QueueChart></QueueChart>
+    </div>
+    <div class="view-box2" v-show="queueMode">
+      <QueuePiechart></QueuePiechart>
+    </div>
+    <!-- <div class="queueBox1" :class="{ 'queue-mode': queueMode }">View1</div>
+    <div class="queueBox2" :class="{ 'queue-mode': queueMode }">View2</div> -->
+    <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
+      <svg
+        t="1687527159523"
+        class="icon quit-icon"
+        viewBox="0 0 1024 1024"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        p-id="2930"
+        width="50"
+        height="50"
+      >
+        <path
+          d="M448.544 496H256a32 32 0 0 0 0 64l146.976-0.192-233.6 233.568a32 32 0 0 0 45.248 45.248l233.664-233.632v147.264a32 32 0 1 0 64 0v-192.512a63.84 63.84 0 0 0-63.744-63.744M838.624 201.376a31.968 31.968 0 0 0-45.248 0L576 418.752V272a32 32 0 0 0-64 0v192.544c0 35.136 28.608 63.712 63.744 63.712h192.512a32 32 0 1 0 0-64l-147.488 0.224 217.856-217.856a31.968 31.968 0 0 0 0-45.248"
+          p-id="2931"
+        ></path>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -152,6 +180,8 @@ import * as d3 from "d3";
 import MapComponent from "../components/roadData/MapComponent.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import Title from "@/components/TheTitle.vue";
+import QueueChart from "@/components/queueData/QueueChart.vue";
+import QueuePiechart from "@/components/queueData/QueuePiechart.vue";
 export default {
   provide() {
     return {
@@ -162,6 +192,8 @@ export default {
     MapComponent,
     BaseButton,
     Title,
+    QueueChart,
+    QueuePiechart,
   },
   data() {
     return {
@@ -177,6 +209,7 @@ export default {
       dataSet: [],
       roadSec: 0,
       editMode: false,
+      queueMode: false,
       showMap: false,
       drawData: null,
       loadDone: false,
@@ -233,16 +266,10 @@ export default {
     },
     toggleEditMode() {
       // this.showMap = false;
-      console.log("map close!!!");
+      //console.log("map close!!!");
       this.editMode = !this.editMode;
       if (this.editMode === false) {
-        this.selectedMaps = [
-          "boundary",
-          "crosswalk",
-          "lane",
-          "signal",
-          "stopline",
-        ];
+        this.setAllData();
       }
       //this.showMap = false;
       //console.log(this.editMode);
@@ -260,14 +287,15 @@ export default {
           dataSum.push(data);
         }
       });
-      //console.log(dataSum);
-      // console.log(dataSum);
-      // this.showMap = true;
+
       return dataSum;
     },
     setShowMap() {
       // console.log("set");
       this.showMap = true;
+    },
+    toggleQueueMode() {
+      this.queueMode = !this.queueMode;
     },
   },
   watch: {
@@ -287,12 +315,38 @@ export default {
   /* display: flex;
   flex-direction: column; */
   height: 100%;
-  /* display: grid;
-  grid-template-columns: 0.1fr 1fr;
-  grid-template-rows: 0.1fr 1fr; */
-  background-color: #e7fbfcb8;
+
+  background-color: #fff;
+
+  display: grid;
+  grid-template-columns: 0fr 1fr;
+  grid-template-rows: 0fr 1fr;
+
+  transition: all 0.5s ease-in-out;
 }
 
+.container.queue-mode {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.view-box1 {
+  grid-row: 1/-1;
+  border: 1px solid #000;
+}
+
+.view-box2 {
+  border: 1px solid #000;
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.title {
+  position: fixed;
+  top: 0;
+  left: 45%;
+  border: 2px solid #fff;
+}
 .nav {
   /* grid-column: 1/-1; */
   position: fixed;
@@ -304,8 +358,8 @@ export default {
 
   gap: 2vw;
   color: #fff;
-  background-color: #4950579c;
-  border-bottom: 5px solid #9cffe199;
+  background-color: #3d354bd6;
+  border: 8px solid #a7e2d0;
   border-top: none;
   /* background-color: rgb(204, 93, 232, 0.6); */
   /* background-color: rgb(174, 62, 201, 0.6); */
@@ -315,10 +369,13 @@ export default {
   /* margin: 1vw; */
   /* padding: 1vw; */
   height: 100%;
-
+  width: 100%;
   /* background: radial-gradient(circle, #e6fcf5, #e9ecef); */
   /* background: linear-gradient(to bottom, #e6fcf5, #e9ecef); */
   /* background-color: #f4fce3; */
+
+  grid-row: 2;
+  grid-column: 2;
 }
 
 .menu {
