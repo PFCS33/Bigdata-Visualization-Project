@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      roadId: 0,
       drawData: null,
       selected: null,
       piechartData: null,
@@ -19,6 +20,9 @@ export default {
     piechartData(state) {
       return state.piechartData;
     },
+    roadId(state) {
+      return state.roadId;
+    },
   },
   mutations: {
     setDrawData(state, payload) {
@@ -32,10 +36,20 @@ export default {
       //console.log("mutation change");
       state.piechartData = payload;
     },
+    setRoadId(state, paylaod) {
+      state.roadId = paylaod;
+    },
   },
   actions: {
-    loadData(context, payload) {
-      const path = `../../../public/data/queue/${payload.file}`;
+    loadData(context, _payload) {
+      const roadId = context.getters["roadId"];
+      let file = null;
+      if (roadId === 0) {
+        file = "sum.csv";
+      } else {
+        file = `type_${roadId}.0.csv`;
+      }
+      const path = `../../../public/data/queue/${file}`;
       d3.csv(path, d3.autoType).then(function (data) {
         // 将字符串转换成数字
         data.forEach(function (d) {

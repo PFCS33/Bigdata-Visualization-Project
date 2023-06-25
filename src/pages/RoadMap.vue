@@ -48,6 +48,9 @@
         <div class="title">
           <Title></Title>
         </div>
+        <FancyButton :color="'#96f2d7'" @click="GotoHeatmap"
+          >热力图</FancyButton
+        >
       </div>
     </transition>
     <transition name="slide">
@@ -148,14 +151,22 @@
         :editMode="editMode"
         :dataParam="drawData"
         :roadSec="roadSec"
+        @center-click="handleCenterClick"
       ></MapComponent>
     </BaseCard>
     <BaseCard class="view-box1">
+      <BaseCard v-if="queueMode && animationDone" class="roadId-label">
+        RoadId: {{ roadId }}
+      </BaseCard>
+
       <QueueChart v-if="queueMode && animationDone"></QueueChart>
     </BaseCard>
     <BaseCard class="view-box2">
       <QueuePiechart v-if="queueMode && animationDone"></QueuePiechart>
     </BaseCard>
+    <!-- <BaseCard class="view-box3" :class="{ 'roadId-label': queueMode }">
+      <span v-if="queueMode && animationDone"> RoadId: {{ roadId }} </span>
+    </BaseCard> -->
     <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
       <svg
         t="1687527159523"
@@ -211,11 +222,18 @@ export default {
       roadSec: 0,
       editMode: false,
       queueMode: false,
+
       showMap: false,
       drawData: null,
       loadDone: false,
       animationDone: false,
+      swichMode: false,
     };
+  },
+  computed: {
+    roadId() {
+      return this.$store.getters["queue/roadId"];
+    },
   },
   methods: {
     // loadData() {
@@ -267,15 +285,16 @@ export default {
       }
     },
     toggleEditMode() {
-      // this.showMap = false;
-      //console.log("map close!!!");
       this.editMode = !this.editMode;
+
       if (this.editMode === false) {
         this.setAllData();
       }
-      //this.showMap = false;
-      //console.log(this.editMode);
+
       this.drawData = this.getDrawData();
+    },
+    GotoHeatmap() {
+      this.$router.push("/heatmap");
     },
     /* -------------------------------------------------------------------------- */
     // 传送进入map的数据
@@ -298,6 +317,7 @@ export default {
     },
     toggleQueueMode() {
       this.queueMode = !this.queueMode;
+      this.swichMode = !this.swichMode;
       this.animationDone = false;
     },
 
@@ -306,6 +326,12 @@ export default {
         // 动画结束后执行相关操作，比如创建图表
         this.animationDone = true;
         console.log("animationDone");
+      }
+    },
+    handleCenterClick() {
+      if (this.swichMode) {
+      } else {
+        this.toggleQueueMode();
       }
     },
   },
@@ -331,29 +357,42 @@ export default {
 
   display: grid;
   grid-template-columns: 0fr 1fr;
+  /* grid-template-rows: 0fr 0fr 1fr; */
   grid-template-rows: 0fr 1fr;
-
   transition: all 0.5s ease-in-out;
 }
 
 .container.queue-mode {
   grid-template-columns: 2fr 1fr;
+  /* grid-template-rows: 0.2fr 1.5fr 1fr; */
   grid-template-rows: 1.5fr 1fr;
   gap: 1vw;
   padding: 1vw 1vw;
 }
 
 .view-box1 {
+  /* grid-row: 2/-1; */
   grid-row: 1/-1;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
   /* border: 1px solid #000; */
 }
 
 .view-box2 {
   /* border: 1px solid #000; */
+  /* grid-row: 1/3; */
   grid-row: 1;
+  /* grid-column: 2; */
   grid-column: 2;
 }
 
+.roadId-label {
+  padding: 1vw;
+  width: 100%;
+  font-size: 2vw;
+  text-align: center;
+}
 .title {
   position: fixed;
   top: 0;
@@ -387,6 +426,7 @@ export default {
   /* background: linear-gradient(to bottom, #e6fcf5, #e9ecef); */
   /* background-color: #f4fce3; */
 
+  /* grid-row: 3; */
   grid-row: 2;
   grid-column: 2;
 }

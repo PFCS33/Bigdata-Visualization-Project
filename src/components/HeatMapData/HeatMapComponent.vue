@@ -50,10 +50,10 @@ export default {
     updateHeatmap() {
       const heatmapContainer = d3.select(".heatmap");
 
-      console.log(this.index);
+      // console.log(this.index);
       // 获取当前要显示的数据元素
       const currentData = this.dataParam[this.index];
-      console.log(currentData);
+      //console.log(currentData);
 
       //console.log(dataParam);
       // console.log(this.selectedHour);
@@ -194,6 +194,13 @@ export default {
 
       heatmapInstance.setData(dataForHeatmap);
     },
+    drawMap() {
+      if (this.mode === 0) {
+        this.drawSingleMap(this.dataParam[this.selectedHour]);
+      } else if (this.mode === 1) {
+        this.startAnimation();
+      }
+    },
   },
   watch: {
     selectedHour(newValue) {
@@ -202,14 +209,13 @@ export default {
         this.drawSingleMap(this.dataParam[newValue]);
       }
     },
+    mode() {
+      this.drawMap();
+    },
   },
   mounted() {
     //console.log("param", this.dataParam);
-    if (this.mode === 0) {
-      this.drawSingleMap(this.dataParam[this.selectedHour]);
-    } else if (this.mode === 1) {
-      this.startAnimation();
-    }
+    this.drawMap();
   },
 };
 </script>

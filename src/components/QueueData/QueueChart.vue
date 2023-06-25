@@ -1,5 +1,5 @@
 <template>
-  <div id="chart" ref="chartContainer">Chart</div>
+  <div id="chart" ref="chartContainer"></div>
 </template>
 <script>
 import * as echarts from "echarts";
@@ -16,6 +16,9 @@ export default {
     drawData() {
       return this.$store.getters["queue/drawData"];
     },
+    roadId() {
+      return this.$store.getters["queue/roadId"];
+    },
   },
   watch: {
     drawData(newValue) {
@@ -26,6 +29,13 @@ export default {
         }
       }
     },
+    roadId() {
+      //console.log("watch", this.roadId);
+      this.chart.clear();
+
+      this.isSet = false;
+      this.$store.dispatch("queue/loadData");
+    },
   },
   methods: {
     createChart() {
@@ -33,7 +43,12 @@ export default {
       // 导入数据
       const data = this.drawData;
       // 创建Echarts堆叠面积图
+      if (this.chart) {
+        $("#chart").off("click");
+        echarts.dispose(this.chart);
+      }
       var chart = echarts.init(this.$refs.chartContainer);
+
       // var chart = echarts.init(document.getElementById("chart"));
       var option = {
         tooltip: {
@@ -201,7 +216,8 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("queue/loadData", { file: "sum.csv" });
+    console.log(this.roadId);
+    this.$store.dispatch("queue/loadData");
     //console.log("in created:", this.drawData);
   },
 };

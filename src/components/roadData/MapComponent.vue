@@ -14,6 +14,7 @@ import * as d3 from "d3";
 export default {
   props: ["dataParam", "roadSec", "editMode"],
   inject: ["setShowMap"],
+  emits: ["center-click"],
   data() {
     return {
       mapping: new Map([
@@ -275,9 +276,12 @@ export default {
         .on("mouseout", function () {
           d3.select(this).attr("r", 30);
         })
-        .on("click", function (center) {
-          const centerId = center.id;
-          that.$emit("center-click", centerId);
+        .on("click", function () {
+          const centerData = d3.select(this).datum(); // 获取绑定的数据
+          const centerId = centerData.id;
+          that.$emit("center-click");
+          that.$store.commit("queue/setRoadId", centerId);
+          // console.log("center", centerId);
         });
       roadCenterGroup
         .append("g")
@@ -659,7 +663,7 @@ export default {
   fill: rgba(91, 162, 139, 0.715);
 }
 .road-center-text {
-  font-size: 2vw;
+  font-size: 2.5vw;
   fill: #fff;
   pointer-events: none;
 }
