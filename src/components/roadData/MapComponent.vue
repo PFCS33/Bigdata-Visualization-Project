@@ -3,7 +3,6 @@
     <div id="roadmapContainer" class="container">
       <svg class="map"></svg>
     </div>
-
     <div class="input-box"></div>
     <div class="tooltip" v-show="editMode"></div>
   </div>
@@ -155,30 +154,20 @@ export default {
       ]),
     };
   },
+  computed: {
+    roadCenter() {
+      return this.$store.getters["roadCenter"];
+    },
+  },
   methods: {
     drawROMap(dataList) {
+      const that = this;
       // console.log("this is ROmap");
       // 获取 SVG 元素的宽度和高度
       const svg = d3.select(".map");
       const width = parseInt(svg.style("width"), 10);
       const height = parseInt(svg.style("height"), 10);
       svg.selectAll("g").remove();
-
-      // const container = d3.select("#roadmapContainer");
-      // container.select("svg").remove();
-      // const spanElement = container.select(".placeholder").node();
-      // // 创建新的svg元素
-      // const svgElement = document.createElementNS(
-      //   "http://www.w3.org/2000/svg",
-      //   "svg"
-      // );
-      // svgElement.setAttribute("width", "100%");
-      // svgElement.setAttribute("height", "100%");
-      // spanElement.parentNode.insertBefore(svgElement, spanElement);
-
-      // const svg = container.select("svg");
-      // const width = parseInt(svg.style("width"), 10);
-      // const height = parseInt(svg.style("height"), 10);
 
       // 为了多个map能在一个地图里显示，采用统一的映射比例
       const xExtent = [-580, 450];
@@ -265,8 +254,48 @@ export default {
             .attr("pointer-events", "all");
         }
       });
-
-      // const group = svg.selectAll("g");
+      const roadCenter = this.roadCenter;
+      const roadCenterGroup = svg.append("g");
+      roadCenterGroup
+        .append("g")
+        .selectAll("circle")
+        .data(roadCenter)
+        .join("circle")
+        .attr("cx", function (center) {
+          return xScale(center.coord[0]);
+        })
+        .attr("cy", function (center) {
+          return yScale(center.coord[1]);
+        })
+        .attr("r", 30)
+        .attr("class", "road-center-point")
+        .on("mouseover", function () {
+          d3.select(this).attr("r", 50);
+        })
+        .on("mouseout", function () {
+          d3.select(this).attr("r", 30);
+        })
+        .on("click", function (center) {
+          const centerId = center.id;
+          that.$emit("center-click", centerId);
+        });
+      roadCenterGroup
+        .append("g")
+        .selectAll("text")
+        .data(roadCenter)
+        .join("text")
+        .attr("x", function (center) {
+          return xScale(center.coord[0]);
+        })
+        .attr("y", function (center) {
+          return yScale(center.coord[1]);
+        })
+        .text(function (center) {
+          return center.id; // 设置文本内容，这里示例为 "Text" + id
+        })
+        .style("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("class", "road-center-text");
     },
 
     drawMap(dataList, roadSecId) {
@@ -614,12 +643,27 @@ export default {
     const width = parseInt(svg.style("width"), 10);
     const height = parseInt(svg.style("height"), 10);
     svg
-      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("viewBox", `0 0 ${width} ${height - 100}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
   },
 };
 </script>
+<style>
+.road-center-point {
+  fill: rgba(118, 202, 174, 0.271);
+  cursor: pointer;
+  transition: r 0.2s;
+}
 
+.road-center-point:hover {
+  fill: rgba(91, 162, 139, 0.715);
+}
+.road-center-text {
+  font-size: 2vw;
+  fill: #fff;
+  pointer-events: none;
+}
+</style>
 <style scoped>
 .tooltip {
   position: fixed;
