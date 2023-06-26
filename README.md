@@ -1,19 +1,26 @@
 # 说明
 
-## 项目环境配置
+## 前置环境配置
 
 - ~~项目使用Vue-CLI搭建，想要运行，请先安装 node.js + Vue CLI~~
 - ~~Vue CLI官网：[Home | Vue CLI (vuejs.org)](https://cli.vuejs.org/zh/)~~
-- 为了兼容性和更轻量，项目从VueCli搭建迁移到Vite搭建
-- Vite官网：[Vite | 下一代的前端工具链 (vitejs.cn)](https://vitejs.cn/vite3-cn/)
 
-### 项目依赖安装
+>  为了兼容性和更轻量，本项目从VueCli搭建迁移到Vite搭建
+
+- 步骤
+  - 安装 node.js: [Node.js (nodejs.org)](https://nodejs.org/en)
+  - 安装 Vite (作者用的npm): [Vite | 下一代的前端工具链 (vitejs.cn)](https://vitejs.cn/vite3-cn/)
+
+
+### 1. clone 本项目到本地
+
+### 2. 项目依赖安装
 
 ```
 npm install
 ```
 
-### 运行
+### 3. 运行
 
 ```
 npm run dev
@@ -23,36 +30,13 @@ npm run dev
 
 ![runProject](/img/1.png)
 
-<br>
-
-## 代码
-
-- 完成画SVG图的 d3 代码装在 MapComponent.vue 中，由RoadMap.vue调用，其他的跟Vue相关，可以不管
-
-```
-│  App.vue
-│  main.js
-│  router.js
-│
-├─assets
-│      logo.png
-│
-├─components
-│  ├─roadData
-│  │      *MapComponent.vue
-│  │
-│  └─ui
-│          BaseButton.vue
-│          BaseCard.vue
-│
-└─pages
-        *RoadMap.vue
-        WelcomePage.vue
-```
-
 
 
 ## 效果：
+
+- 最终版展示
+
+  ![FinalVersion](/img/demo.gif)
 
 - 初版
 
