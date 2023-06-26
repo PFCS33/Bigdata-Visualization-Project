@@ -1,0 +1,31 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable
+} from '@storybook/addon-docs/blocks';
+import ToggleSwitch from './ToggleSwitch.vue';
+
+<Meta
+  title="Components/ToggleSwitch"
+  component={ToggleSwitch}
+/>
+
+<!-- <ArgsTable of={ToggleSwitch} /> -->
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { ToggleSwitch },
+  template: `<ToggleSwitch v-bind="$props" />`
+});
+
+# Toggle switch
+
+<br />
+
+<Canvas>
+  <Story name="active">{Template.bind()}</Story>
+  <Story name="inactive" args={{ initState: false }}>
+    {Template.bind()}
+  </Story>
+</Canvas>

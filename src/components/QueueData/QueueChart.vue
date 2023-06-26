@@ -120,6 +120,7 @@ export default {
             data: data.map(function (d) {
               return d["type1_num"];
             }),
+            smooth: true,
           },
           {
             name: "type10_num",
@@ -129,6 +130,7 @@ export default {
             data: data.map(function (d) {
               return d["type10_num"];
             }),
+            smooth: true,
           },
           {
             name: "type3_num",
@@ -138,6 +140,7 @@ export default {
             data: data.map(function (d) {
               return d["type3_num"];
             }),
+            smooth: true,
           },
           {
             name: "type4_num",
@@ -147,6 +150,7 @@ export default {
             data: data.map(function (d) {
               return d["type4_num"];
             }),
+            smooth: true,
           },
           {
             name: "type6_num",
@@ -156,6 +160,7 @@ export default {
             data: data.map(function (d) {
               return d["type6_num"];
             }),
+            smooth: true,
           },
         ],
       };

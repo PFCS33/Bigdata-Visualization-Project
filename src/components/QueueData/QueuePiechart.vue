@@ -69,7 +69,7 @@ export default {
         },
         series: [
           {
-            top: 20,
+            top: 50,
             name: "percent",
             type: "pie",
             radius: [0, 100],

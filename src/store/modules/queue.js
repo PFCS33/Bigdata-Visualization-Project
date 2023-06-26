@@ -61,6 +61,8 @@ export default {
         });
         //console.log("in actions:", data);
         context.commit("setDrawData", data);
+        console.log("loadDone");
+        console.log(data);
       });
     },
   },

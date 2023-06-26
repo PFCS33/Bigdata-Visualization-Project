@@ -1,0 +1,52 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable
+} from '@storybook/addon-docs/blocks';
+import SinglelineTextField from './SinglelineTextField.vue';
+
+<Meta
+  title="Components/SinglelineTextField"
+  component={SinglelineTextField}
+  argTypes={{
+    backgroundColor: { control: 'color' },
+    type: {
+      control: {
+        type: 'select',
+        options: ['form', 'search']
+      }
+    }
+  }}
+/>
+
+<!-- <ArgsTable of={SinglelineTextField} /> -->
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { SinglelineTextField },
+  template: `<SinglelineTextField v-bind="$props" />`
+});
+
+# Single line text field
+
+<br />
+
+## Nomal
+
+<Canvas>
+  <Story name="form">>{Template.bind()}</Story>
+</Canvas>
+
+## Search
+
+<Canvas>
+  <Story
+    name="search"
+    args={{
+      type: 'search'
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+</Canvas>

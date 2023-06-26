@@ -1,0 +1,178 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable
+} from '@storybook/addon-docs/blocks';
+import Button from './Button.vue';
+
+<Meta
+  title="Components/Button"
+  component={Button}
+  argTypes={{
+    size: {
+      control: {
+        type: 'select',
+        options: ['small', 'medium', 'large']
+      }
+    },
+    color: {
+      control: {
+        type: 'select',
+        options: ['base', 'primary']
+      }
+    },
+    layout: {
+      control: {
+        type: 'select',
+        options: ['flexible', 'fill', 'half']
+      }
+    }
+  }}
+/>
+
+<!-- <ArgsTable of={Button} /> -->
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { Button },
+  template: `<Button v-bind="$props" />`
+});
+
+# Button
+
+<br />
+<br />
+
+## inactive - base
+
+<Canvas>
+  <Story
+    name="small"
+    args={{
+      label: 'Button',
+      size: 'small'
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="medium"
+    args={{
+      label: 'Button',
+      size: 'medium'
+    }}
+  >
+    {Template.bind()}
+  </Story>
+  <Story
+    name="large"
+    args={{
+      label: 'Button'
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+</Canvas>
+
+## inactive - primary
+
+<Canvas>
+  <Story
+    name="primary/small"
+    args={{
+      label: 'Button',
+      size: 'small',
+      color: 'primary'
+    }}
+  >
+    {Template.bind()}
+  </Story>
+  <Story
+    name="primary/medium"
+    args={{
+      label: 'Button',
+      size: 'medium',
+      color: 'primary'
+    }}
+  >
+    {Template.bind()}
+  </Story>
+  <Story
+    name="primart/large"
+    args={{
+      label: 'Button',
+      color: 'primary'
+    }}
+  >
+    {Template.bind()}
+  </Story>
+</Canvas>
+
+## inactive - with icon
+
+<Canvas>
+  <Story
+    name="withIcon/small"
+    args={{
+      label: 'Button',
+      size: 'small',
+      icon: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="withIcon/medium"
+    args={{
+      label: 'Button',
+      size: 'medium',
+      icon: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="withIcon/large"
+    args={{
+      label: 'Button',
+      icon: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+</Canvas>
+
+## active
+
+<Canvas>
+  <Story
+    name="active/small"
+    args={{
+      label: 'Button',
+      size: 'small',
+      initState: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="active/medium"
+    args={{
+      label: 'Button',
+      size: 'medium',
+      initState: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="active/large"
+    args={{
+      label: 'Button',
+      initState: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+</Canvas>

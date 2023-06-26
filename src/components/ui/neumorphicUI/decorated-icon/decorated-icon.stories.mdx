@@ -1,0 +1,57 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable
+} from '@storybook/addon-docs/blocks';
+import DecoratedIcon from './DecoratedIcon.vue';
+
+<Meta
+  title="Components/DecoratedIcon"
+  component={DecoratedIcon}
+  argTypes={{
+    icon: {
+      control: {
+        type: 'select',
+        options: [
+          'person',
+          'schedule',
+          'room',
+          'category',
+          'search',
+          'get_app',
+          'insert_drive_file',
+          'style'
+        ]
+      }
+    }
+  }}
+/>
+
+<!-- <ArgsTable of={DecoratedIcon} /> -->
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { DecoratedIcon },
+  template: `<DecoratedIcon v-bind="$props" />`
+});
+
+# Decolated icon
+
+<br />
+
+<Canvas>
+  <Story name="icon-schedule">{Template.bind()}</Story>
+  <Story name="icon-room" args={{ icon: 'room' }}>
+    {Template.bind()}
+  </Story>
+  <Story name="icon-category" args={{ icon: 'category' }}>
+    {Template.bind()}
+  </Story>
+  <Story name="icon-search" args={{ icon: 'search' }}>
+    {Template.bind()}
+  </Story>
+  <Story name="icon-style" args={{ icon: 'style' }}>
+    {Template.bind()}
+  </Story>
+</Canvas>

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import WelcomePage from "./pages/WelcomePage.vue";
 import RoadMap from "./pages/RoadMap.vue";
 import HeatMap from "./pages/HeatMap.vue";
-import MainPage from "./pages/MainPage.vue";
+import BubbleChart from "./components/queueData/BubbleChart.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,16 +17,20 @@ const router = createRouter({
       component: RoadMap,
     },
     {
-      path: "/welcome",
-      component: WelcomePage,
-    },
-    {
       path: "/roadmap",
       component: RoadMap,
     },
     {
       path: "/heatmap",
       component: HeatMap,
+    },
+    {
+      path: "/welcome",
+      component: WelcomePage,
+    },
+    {
+      path: "/test",
+      component: BubbleChart,
     },
   ],
 });

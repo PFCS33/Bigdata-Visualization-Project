@@ -403,19 +403,6 @@ export default {
               return "M" + pathData.join("L");
             })
             .style("fill", "none")
-            // .style("stroke", color)
-            // .style("stroke", function (feature) {
-            //   if (name === "lane") {
-            //     const lane_no = feature.properties.lane_no;
-            //     if (lane_no === 0) {
-            //       return "#000";
-            //     } else {
-            //       return color;
-            //     }
-            //   } else {
-            //     return color;
-            //   }
-            // })
             .style("stroke", function (feature) {
               if (roadSec !== -1 && name === "lane") {
                 const road_sec_id = feature.properties.road_sec_id;
@@ -452,17 +439,6 @@ export default {
                 .style("top", event.pageY - 10 + "px");
             })
             .on("mouseout", function (_e, feature) {
-              // //恢复颜色
-              // if (name === "lane") {
-              //   const lane_no = feature.properties.lane_no;
-              //   if (lane_no === 0) {
-              //     d3.select(this).style("stroke", "#000");
-              //   } else {
-              //     d3.select(this).style("stroke", color);
-              //   }
-              // } else {
-              //   d3.select(this).style("stroke", color);
-              // }
               //恢复颜色
               if (roadSec !== -1 && name === "lane") {
                 const road_sec_id = feature.properties.road_sec_id;
@@ -654,7 +630,7 @@ export default {
 </script>
 <style>
 .road-center-point {
-  fill: rgba(118, 202, 174, 0.271);
+  fill: rgba(53, 225, 168, 0.467);
   cursor: pointer;
   transition: r 0.2s;
 }

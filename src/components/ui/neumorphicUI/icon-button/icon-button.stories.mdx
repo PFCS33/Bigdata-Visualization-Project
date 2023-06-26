@@ -1,0 +1,85 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable
+} from '@storybook/addon-docs/blocks';
+import IconButton from './IconButton.vue';
+
+<Meta
+  title="Components/IconButton"
+  component={IconButton}
+  argTypes={{
+    icon: {
+      control: {
+        type: 'select',
+        options: [
+          'edit',
+          'expand_more',
+          'menu',
+          'arrow_back',
+          'more_vert',
+          'delete'
+        ]
+      }
+    },
+    size: {
+      control: {
+        type: 'select',
+        options: ['small', 'medium', 'large']
+      }
+    }
+  }}
+/>
+
+<!-- <ArgsTable of={IconButton} /> -->
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { IconButton },
+  template: `<IconButton v-bind="$props" />`
+});
+
+# Icon button
+
+<br />
+
+## inactive
+
+<Canvas>
+  <Story name="small" args={{ size: 'small' }}>
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="medium"
+    args={{
+      size: 'medium'
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story name="large">>{Template.bind()}</Story>
+</Canvas>
+
+## active
+
+<Canvas>
+  <Story
+    name="active/small"
+    args={{ size: 'small', initState: true }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story
+    name="active/medium"
+    args={{
+      size: 'medium',
+      initState: true
+    }}
+  >
+    >{Template.bind()}
+  </Story>
+  <Story name="active/large" args={{ initState: true }}>
+    >{Template.bind()}
+  </Story>
+</Canvas>

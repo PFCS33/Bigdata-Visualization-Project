@@ -6,55 +6,20 @@
   >
     <transition name="nav">
       <div class="nav" v-if="!editMode && !queueMode">
-        <button class="menu-btn" @click="toggleEditMode" color="#333333">
-          <div class="menu-btn-content">
-            <svg
-              t="1687523456001"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="1491"
-              width="20"
-              height="20"
-            >
-              <path
-                d="M344.792 518.575L303.4 477.184a26.947 26.947 0 0 1 38.13-38.13l60.174 60.173a26.947 26.947 0 0 1 0.27 37.834L114.392 833.16a26.947 26.947 0 0 0 0.27 37.834l68.984 68.958a26.947 26.947 0 0 0 38.077 0l291.301-291.3a26.947 26.947 0 0 1 38.104 0l146.324 146.323a26.947 26.947 0 1 1-38.104 38.13L532.076 705.833 259.853 978.055a80.842 80.842 0 0 1-114.337 0L76.53 909.096a80.842 80.842 0 0 1-0.809-113.475l269.043-277.046z m473.546 155.54a26.947 26.947 0 1 1-38.104 38.104L597.288 529.273a26.947 26.947 0 0 1 0-38.103l148.13-148.103a26.947 26.947 0 0 1 15.36-7.653l88.603-12.18 89.627-170.927-56.697-60.39-167.37 97.254-16.546 85.53a26.947 26.947 0 0 1-7.384 13.96l-148.13 148.102a26.947 26.947 0 0 1-38.103 0l-77.474-77.474a26.947 26.947 0 1 1 38.104-38.103l58.422 58.422 123.23-123.23 17.273-89.466a26.947 26.947 0 0 1 12.935-18.19l196.5-114.175a26.947 26.947 0 0 1 33.173 4.85l84.48 90.004a26.947 26.947 0 0 1 4.203 30.963l-104.96 200.165a26.947 26.947 0 0 1-20.21 14.201l-93.346 12.854-122.637 122.637 163.867 163.894z"
-                fill="#333333"
-                p-id="1492"
-              ></path>
-              <path
-                d="M610.816 784.573a26.947 26.947 0 0 1 38.104-38.104l52.089 52.09a26.947 26.947 0 0 1-38.104 38.103l-52.089-52.09zM368.371 543.42a26.947 26.947 0 1 1 37.995-38.185L705.671 803.22a26.947 26.947 0 0 1 7.814 21.45 111.373 111.373 0 0 0 31.475 87.471 107.79 107.79 0 1 0 68.662-183.727c-2.129 0.135-3.934 0.081-5.578-0.054a26.947 26.947 0 0 1-19.537-7.868L485.24 417.954a26.947 26.947 0 1 1 38.05-38.158l295.181 294.481A161.684 161.684 0 1 1 706.83 950.272a165.16 165.16 0 0 1-47.642-117.275L368.37 543.421z"
-                fill="#333333"
-                p-id="1493"
-              ></path>
-              <path
-                d="M783.076 874.036a53.895 53.895 0 1 0 76.22-76.219 53.895 53.895 0 1 0-76.22 76.219zM421.807 588.989a26.947 26.947 0 0 1 38.104 38.13L221.723 865.28a26.947 26.947 0 1 1-38.104-38.104L421.807 588.99z m81.597-229.808a26.947 26.947 0 1 1-38.104 38.104l-37.996-37.996a26.947 26.947 0 0 1-5.847-29.345c0.808-1.914 1.05-2.426 3.368-7.06l0.189-0.432c0.754-1.509 1.24-2.506 1.159-2.263a188.632 188.632 0 0 0-43.601-198.818 187.877 187.877 0 0 0-129.698-55.215 189.736 189.736 0 0 0-73.135 13.15l-2.506 0.97-1.752 0.728a26.947 26.947 0 0 1-21.073-49.61c1.887-0.809 1.887-0.809 3.423-1.402l2.102-0.808a242.068 242.068 0 0 1 93.992-16.896 241.772 241.772 0 0 1 166.723 70.98 242.526 242.526 0 0 1 57.722 250.88l25.007 25.033zM25.869 160.013a26.947 26.947 0 0 1 49.61 21.02 187.284 187.284 0 0 0-14.74 65.374 188.039 188.039 0 0 0 55.054 141.743 188.632 188.632 0 0 0 44.463 33.037 26.947 26.947 0 1 1-25.411 47.536 242.526 242.526 0 0 1-57.129-42.47A241.907 241.907 0 0 1 6.9 244.035a243.443 243.443 0 0 1 18.97-84.022z m224.337 337.274a26.947 26.947 0 0 1-0.215-53.895 189.17 189.17 0 0 0 61.79-10.644c4.366-1.51 7.168-2.21 10.94-1.563a26.947 26.947 0 0 1 18.81 7.895l33.145 33.146a26.947 26.947 0 0 1-38.103 38.13l-21.99-22.016a243.308 243.308 0 0 1-64.377 8.947z"
-                fill="#333333"
-                p-id="1494"
-              ></path>
-              <path
-                d="M148.48 77.824a26.947 26.947 0 1 1 38.104-38.104l161.792 161.82a26.947 26.947 0 0 1 7.087 25.6l-22.986 91.35a26.947 26.947 0 0 1-19.564 19.565L221.56 361.04a26.947 26.947 0 0 1-25.6-7.06L30.343 188.362a26.947 26.947 0 1 1 38.13-38.103L223.26 305.044l60.901-15.306 15.306-60.9L148.48 77.823z"
-                fill="#333333"
-                p-id="1495"
-              ></path>
-            </svg>
-            <span> Menu </span>
-          </div>
-        </button>
+        <Card class="title" labelstate>
+          <Title></Title>
+        </Card>
         <FancyButton :color="'#96f2d7'" @click="toggleQueueMode"
           >排队车辆</FancyButton
         >
-        <div class="title">
-          <Title></Title>
-        </div>
+
         <FancyButton :color="'#96f2d7'" @click="GotoHeatmap"
           >热力图</FancyButton
         >
       </div>
     </transition>
     <transition name="slide">
-      <BaseCard class="menu" v-if="editMode">
+      <Card class="menu" v-if="editMode">
         <div class="form-box">
           <div class="form-control">
             <input
@@ -84,6 +49,7 @@
               v-model="selectedMaps"
               value="lane"
             />
+
             <label for="lane">lane</label>
           </div>
           <div class="form-control">
@@ -125,27 +91,35 @@
           <BaseButton @click="resetData" class="btn"> 重置</BaseButton>
           <BaseButton @click="setAllData" class="btn"> 全选</BaseButton>
         </div>
-      </BaseCard>
+      </Card>
     </transition>
-    <BaseCard class="map-container">
-      <button class="quit-edit-btn" @click="toggleEditMode" v-if="editMode">
+    <Card
+      class="map-container"
+      :class="{ 'edit-mode': editMode, 'queue-mode': queueMode }"
+    >
+      <IconButton
+        @click="toggleEditMode"
+        labelstate
+        class="edit-btn"
+        size="large"
+        v-if="!queueMode"
+      >
+      </IconButton>
+      <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
         <svg
-          t="1687527159523"
+          t="1687710814049"
           class="icon quit-icon"
           viewBox="0 0 1024 1024"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
-          p-id="2930"
-          width="50"
-          height="50"
+          p-id="2268"
         >
           <path
-            d="M448.544 496H256a32 32 0 0 0 0 64l146.976-0.192-233.6 233.568a32 32 0 0 0 45.248 45.248l233.664-233.632v147.264a32 32 0 1 0 64 0v-192.512a63.84 63.84 0 0 0-63.744-63.744M838.624 201.376a31.968 31.968 0 0 0-45.248 0L576 418.752V272a32 32 0 0 0-64 0v192.544c0 35.136 28.608 63.712 63.744 63.712h192.512a32 32 0 1 0 0-64l-147.488 0.224 217.856-217.856a31.968 31.968 0 0 0 0-45.248"
-            p-id="2931"
+            d="M149.333333 394.666667c17.066667 0 32-14.933333 32-32v-136.533334l187.733334 187.733334c6.4 6.4 14.933333 8.533333 23.466666 8.533333s17.066667-2.133333 23.466667-8.533333c12.8-12.8 12.8-32 0-44.8l-187.733333-187.733334H362.666667c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32H149.333333c-4.266667 0-8.533333 0-10.666666 2.133334-8.533333 4.266667-14.933333 10.666667-19.2 17.066666-2.133333 4.266667-2.133333 8.533333-2.133334 12.8v213.333334c0 17.066667 14.933333 32 32 32zM874.666667 629.333333c-17.066667 0-32 14.933333-32 32v136.533334L642.133333 597.333333c-12.8-12.8-32-12.8-44.8 0s-12.8 32 0 44.8l200.533334 200.533334H661.333333c-17.066667 0-32 14.933333-32 32s14.933333 32 32 32h213.333334c4.266667 0 8.533333 0 10.666666-2.133334 8.533333-4.266667 14.933333-8.533333 17.066667-17.066666 2.133333-4.266667 2.133333-8.533333 2.133333-10.666667V661.333333c2.133333-17.066667-12.8-32-29.866666-32zM381.866667 595.2l-200.533334 200.533333V661.333333c0-17.066667-14.933333-32-32-32s-32 14.933333-32 32v213.333334c0 4.266667 0 8.533333 2.133334 10.666666 4.266667 8.533333 8.533333 14.933333 17.066666 17.066667 4.266667 2.133333 8.533333 2.133333 10.666667 2.133333h213.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32h-136.533333l200.533333-200.533333c12.8-12.8 12.8-32 0-44.8s-29.866667-10.666667-42.666666 0zM904.533333 138.666667c0-2.133333 0-2.133333 0 0-4.266667-8.533333-10.666667-14.933333-17.066666-17.066667-4.266667-2.133333-8.533333-2.133333-10.666667-2.133333H661.333333c-17.066667 0-32 14.933333-32 32s14.933333 32 32 32h136.533334l-187.733334 187.733333c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.933333 8.533333 23.466667 8.533333s17.066667-2.133333 23.466667-8.533333l187.733333-187.733333V362.666667c0 17.066667 14.933333 32 32 32s32-14.933333 32-32V149.333333c-2.133333-4.266667-2.133333-8.533333-4.266667-10.666666z"
+            p-id="2269"
           ></path>
         </svg>
       </button>
-
       <MapComponent
         v-if="loadDone"
         :editMode="editMode"
@@ -153,37 +127,26 @@
         :roadSec="roadSec"
         @center-click="handleCenterClick"
       ></MapComponent>
-    </BaseCard>
-    <BaseCard class="view-box1">
-      <BaseCard v-if="queueMode && animationDone" class="roadId-label">
+    </Card>
+    <Card
+      class="view-box1"
+      :class="{ 'padding-card': queueMode, 'no-border': !queueMode }"
+    >
+      <Card v-if="queueMode && animationDone" class="roadId-label">
         RoadId: {{ roadId }}
-      </BaseCard>
+      </Card>
 
       <QueueChart v-if="queueMode && animationDone"></QueueChart>
-    </BaseCard>
-    <BaseCard class="view-box2">
+    </Card>
+    <Card
+      class="view-box2"
+      :class="{ 'padding-card': queueMode, 'no-border': !queueMode }"
+    >
       <QueuePiechart v-if="queueMode && animationDone"></QueuePiechart>
-    </BaseCard>
+    </Card>
     <!-- <BaseCard class="view-box3" :class="{ 'roadId-label': queueMode }">
       <span v-if="queueMode && animationDone"> RoadId: {{ roadId }} </span>
     </BaseCard> -->
-    <button class="quit-edit-btn" @click="toggleQueueMode" v-if="queueMode">
-      <svg
-        t="1687527159523"
-        class="icon quit-icon"
-        viewBox="0 0 1024 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        p-id="2930"
-        width="50"
-        height="50"
-      >
-        <path
-          d="M448.544 496H256a32 32 0 0 0 0 64l146.976-0.192-233.6 233.568a32 32 0 0 0 45.248 45.248l233.664-233.632v147.264a32 32 0 1 0 64 0v-192.512a63.84 63.84 0 0 0-63.744-63.744M838.624 201.376a31.968 31.968 0 0 0-45.248 0L576 418.752V272a32 32 0 0 0-64 0v192.544c0 35.136 28.608 63.712 63.744 63.712h192.512a32 32 0 1 0 0-64l-147.488 0.224 217.856-217.856a31.968 31.968 0 0 0 0-45.248"
-          p-id="2931"
-        ></path>
-      </svg>
-    </button>
   </div>
 </template>
 
@@ -325,7 +288,7 @@ export default {
       if (event.target === this.$el) {
         // 动画结束后执行相关操作，比如创建图表
         this.animationDone = true;
-        console.log("animationDone");
+        //console.log("animationDone");
       }
     },
     handleCenterClick() {
@@ -349,22 +312,21 @@ export default {
 
 <style scoped>
 .container {
-  /* display: flex;
-  flex-direction: column; */
   height: 100%;
-
+  width: 100vw;
   background-color: #fff;
-
   display: grid;
   grid-template-columns: 0fr 1fr;
-  /* grid-template-rows: 0fr 0fr 1fr; */
   grid-template-rows: 0fr 1fr;
   transition: all 0.5s ease-in-out;
+
+  /* background: linear-gradient(91.58deg, #6bcedc -8.01%, #71e2dc 105.39%); */
+  background: linear-gradient(91.58deg, #99e9f2 -8.01%, #96f2d7 105.39%);
+  padding: 1vw;
 }
 
 .container.queue-mode {
   grid-template-columns: 2fr 1fr;
-  /* grid-template-rows: 0.2fr 1.5fr 1fr; */
   grid-template-rows: 1.5fr 1fr;
   gap: 1vw;
   padding: 1vw 1vw;
@@ -376,6 +338,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1vw;
+
   /* border: 1px solid #000; */
 }
 
@@ -387,6 +350,10 @@ export default {
   grid-column: 2;
 }
 
+.no-border {
+  border: none !important;
+}
+
 .roadId-label {
   padding: 1vw;
   width: 100%;
@@ -395,45 +362,64 @@ export default {
 }
 .title {
   position: fixed;
-  top: 0;
-  left: 45%;
-  border: 2px solid #fff;
+  top: 1%;
+  left: 38%;
+  padding: 1vw;
+  color: #67b39c;
+  /* border: 2px solid #fff; */
 }
 .nav {
   /* grid-column: 1/-1; */
+  width: 100%;
   position: fixed;
   top: 0;
+  left: 0;
   height: 10%;
-  width: 100%;
   display: flex;
-  padding: 1.2vw;
+  justify-content: space-between;
 
+  padding: 1.2vw 25vw;
   gap: 2vw;
   color: #fff;
-  background-color: #3d354bd6;
-  border: 8px solid #a7e2d0;
-  border-top: none;
+  /* background-color: #3d354bd6; */
+  background-color: #5b4965cd;
+  background: linear-gradient(91.58deg, #53e1b6d2 -8.01%, #b075cfcd 105.39%);
+  background: radial-gradient(circle, #53e1b6d2, #b075cfcd);
+
+  /* background: linear-gradient(91.58deg, #99e9f2c1 -8.01%, #96f2d6d2 105.39%); */
+  /* border: 8px solid #a7e2d0; */
+  /* border-top: none; */
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.26);
+  z-index: 10;
   /* background-color: rgb(204, 93, 232, 0.6); */
   /* background-color: rgb(174, 62, 201, 0.6); */
 }
+
+.edit-btn {
+  position: fixed;
+  right: 3%;
+  bottom: 10%;
+}
+
+.padding-card {
+  padding: 1.6rem 2.4rem;
+}
+
 .map-container {
   flex: 1 1 auto;
   /* margin: 1vw; */
   /* padding: 1vw; */
   height: 100%;
   width: 100%;
-  /* background: radial-gradient(circle, #e6fcf5, #e9ecef); */
-  /* background: linear-gradient(to bottom, #e6fcf5, #e9ecef); */
-  /* background-color: #f4fce3; */
 
   /* grid-row: 3; */
   grid-row: 2;
   grid-column: 2;
+  background: linear-gradient(158.17deg, #f3f5fa -1.94%, #ebedf2 102.24%);
+  position: relative;
 }
 
-.map-container.queue-mode {
-  /* transform: scale(1.2); */
-}
 .menu {
   /* margin: 1vw; */
   display: flex;
@@ -447,6 +433,7 @@ export default {
   height: fit-content;
   width: 8%;
   transition: transform 1s ease; /* 添加过渡效果 */
+  z-index: 10;
 }
 
 .form-box {
@@ -481,26 +468,26 @@ export default {
   align-items: center;
   gap: 0.2vw;
   font-size: 1vw;
-  color: #71008d;
+  color: #6a9185;
 }
-
+.quit-icon {
+  width: 30px;
+  height: 30px;
+  fill: #76d7ba;
+}
 .quit-icon:hover,
 .quit-icon:active {
-  fill: #6a9185;
+  fill: #67caac;
 }
 .quit-edit-btn {
-  position: fixed;
-  top: 0;
-  left: 0;
+  left: 5%;
+  top: 5%;
   background: none;
   border: none;
   cursor: pointer;
+  position: absolute;
 }
 
-.quit-edit-btn:hover,
-.quit-edit-btn:active {
-  color: #96f2d7;
-}
 .number-input-box {
   width: 3vw;
 }

@@ -11,7 +11,7 @@
 import * as d3 from "d3";
 import h337 from "@mars3d/heatmap.js";
 export default {
-  props: ["dataParam", "mode", "selectedHour"],
+  props: ["dataParam", "mode", "selectedHour", "detailMode"],
   data() {
     return {
       index: 0,
@@ -35,9 +35,9 @@ export default {
       this.timer = setInterval(() => {
         // 更新索引值
         this.index = (this.index + 1) % this.hourNum;
-        // 更新热图数据
+        // 更新热图数
         this.updateHeatmap();
-      }, 1000); // 每隔 1 秒更新一次
+      }, 100);
       this.heatmapInstance = h337.create({
         container: document.querySelector(".heatmap"),
         maxOpacity: 0.9,
@@ -49,7 +49,6 @@ export default {
 
     updateHeatmap() {
       const heatmapContainer = d3.select(".heatmap");
-
       // console.log(this.index);
       // 获取当前要显示的数据元素
       const currentData = this.dataParam[this.index];
@@ -57,7 +56,7 @@ export default {
 
       //console.log(dataParam);
       // console.log(this.selectedHour);
-      const width = 1228;
+      const width = this.detailMode ? 618 : 1228;
       //   const height = 472;
       const height = 500;
       // 为了多个map能在一个地图里显示，采用统一的映射比例
@@ -75,7 +74,7 @@ export default {
           x: Math.round(xScale(data.x)),
           y: Math.round(yScale(data.y)),
           value: value,
-          radius: 2,
+          radius: 3.5,
         };
         maxValue = Math.max(maxValue, value);
         points.push(point);
@@ -85,31 +84,32 @@ export default {
         max: maxValue,
         data: points,
       };
+      console.log(this.index);
 
-      //   // 使用 D3.js 过渡功能，实现热图的平滑更新
-      //   const canvas = heatmapContainer.select("canvas");
-      //   // 设置初始的热图数据
-      //   heatmapInstance.setData(dataForHeatmap);
-      //   // 过渡到新的热图数据
-      //   canvas.style("opacity", 0).transition().duration(500).style("opacity", 1);
+      // 使用 D3.js 过渡功能，实现热图的平滑更新
+      const canvas = heatmapContainer.select("canvas");
+      // 设置初始的热图数据
+      this.heatmapInstance.setData(dataForHeatmap);
+      // 过渡到新的热图数据
+      canvas.style("opacity", 1).transition().duration(100).style("opacity", 1);
 
-      const canvasOld = heatmapContainer.select("canvas");
-      canvasOld
-        .style("opacity", 1)
-        .transition()
-        .duration(800)
-        .style("opacity", 0)
-        .remove();
+      // const canvasOld = heatmapContainer.select("canvas");
+      // canvasOld
+      //   .style("opacity", 1)
+      //   .transition()
+      //   .duration(500)
+      //   .style("opacity", 0)
+      //   .remove();
 
-      const canvasNew = heatmapContainer.select("canvas");
-      canvasNew
-        .style("opacity", 0)
-        .transition()
-        .duration(800)
-        .style("opacity", 1)
-        .on("end", () => {
-          this.heatmapInstance.setData(dataForHeatmap);
-        });
+      // const canvasNew = heatmapContainer.select("canvas");
+      // canvasNew
+      //   .style("opacity", 0)
+      //   .transition()
+      //   .duration(500)
+      //   .style("opacity", 1)
+      //   .on("end", () => {
+      //     this.heatmapInstance.setData(dataForHeatmap);
+      //   });
     },
 
     drawSingleMap(dataParam) {
@@ -118,7 +118,7 @@ export default {
       heatmapContainer.selectAll("*").remove();
       //console.log(dataParam);
       // console.log(this.selectedHour);
-      const width = 1228;
+      const width = this.detailMode ? 618 : 1228;
       //   const height = 472;
       const height = 500;
       // 为了多个map能在一个地图里显示，采用统一的映射比例
@@ -180,7 +180,7 @@ export default {
           y: Math.round(yScale(data.y)),
           value: value,
           //radius: 2,
-          radius: 2,
+          radius: 3.5,
         };
         maxValue = Math.max(maxValue, value);
         points.push(point);
@@ -194,11 +194,15 @@ export default {
 
       heatmapInstance.setData(dataForHeatmap);
     },
+
     drawMap() {
-      if (this.mode === 0) {
-        this.drawSingleMap(this.dataParam[this.selectedHour]);
-      } else if (this.mode === 1) {
+      if (this.mode) {
         this.startAnimation();
+      } else {
+        if (this.timer) {
+          clearInterval(this.timer);
+        }
+        this.drawSingleMap(this.dataParam[this.selectedHour]);
       }
     },
   },
@@ -212,10 +216,20 @@ export default {
     mode() {
       this.drawMap();
     },
+    detailMode() {
+      this.drawMap();
+    },
   },
   mounted() {
     //console.log("param", this.dataParam);
     this.drawMap();
+  },
+
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+    this.dataSet = []; // 清空 dataSet 数组
   },
 };
 </script>
