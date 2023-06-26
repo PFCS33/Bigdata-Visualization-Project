@@ -9,13 +9,20 @@
         <Card class="title" labelstate>
           <Title></Title>
         </Card>
-        <FancyButton :color="'#96f2d7'" @click="toggleQueueMode"
-          >排队车辆</FancyButton
-        >
+        <div class="nav-part1">
+          <FancyButton :color="'#96f2d7'" @click="toggleQueueMode"
+            >排队车辆</FancyButton
+          >
 
-        <FancyButton :color="'#96f2d7'" @click="GotoHeatmap"
-          >热力图</FancyButton
-        >
+          <FancyButton :color="'#96f2d7'" @click="GotoHeatmap"
+            >热力图</FancyButton
+          >
+        </div>
+        <div class="nav-part2">
+          <FancyButton :color="'#96f2d7'" @click="GotoRateChart"
+            >平均速度</FancyButton
+          >
+        </div>
       </div>
     </transition>
     <transition name="slide">
@@ -305,6 +312,9 @@ export default {
         this.toggleQueueMode();
       }
     },
+    GotoRateChart() {
+      this.$router.push("/rate");
+    },
   },
   watch: {
     selectedMaps() {
@@ -386,22 +396,29 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  padding: 1.2vw 25vw;
+  padding: 1.2vw 0;
+  padding-right: 25vw;
+  padding-left: 15vw;
   gap: 2vw;
   color: #fff;
   /* background-color: #3d354bd6; */
   background-color: #5b4965cd;
-  background: linear-gradient(91.58deg, #53e1b6d2 -8.01%, #b075cfcd 105.39%);
+  /* background: linear-gradient(91.58deg, #53e1b6d2 -8.01%, #b075cfcd 105.39%); */
   background: radial-gradient(circle, #53e1b6d2, #b075cfcd);
 
-  /* background: linear-gradient(91.58deg, #99e9f2c1 -8.01%, #96f2d6d2 105.39%); */
-  /* border: 8px solid #a7e2d0; */
-  /* border-top: none; */
   border-radius: 0 0 12px 12px;
   box-shadow: 0 6px 6px rgba(0, 0, 0, 0.26);
   z-index: 10;
-  /* background-color: rgb(204, 93, 232, 0.6); */
-  /* background-color: rgb(174, 62, 201, 0.6); */
+}
+
+.nav-part1 {
+  display: flex;
+  gap: 5vw;
+}
+
+.nav-part2 {
+  display: flex;
+  /* align-items: center; */
 }
 
 .edit-btn {

@@ -4,8 +4,11 @@ import WelcomePage from "./pages/WelcomePage.vue";
 import RoadMap from "./pages/RoadMap.vue";
 import HeatMap from "./pages/HeatMap.vue";
 import RoadChartPage from "./pages/RoadChartPage.vue";
+import RatePage from "./pages/RatePage.vue";
 // import BubbleChart from "./components/queueData/BubbleChart.vue";
-import RoadChart from "./components/queueData/RoadChart.vue";
+// import RoadChart from "./components/queueData/RoadChart.vue";
+// import RateBubble from "./components/rate/RateBubble.vue";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -34,8 +37,8 @@ const router = createRouter({
       component: RoadChartPage,
     },
     {
-      path: "/test",
-      component: RoadChart,
+      path: "/rate",
+      component: RatePage,
     },
   ],
 });
