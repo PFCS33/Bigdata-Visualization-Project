@@ -410,7 +410,11 @@ export default {
         })
         .attr("r", 30)
         .attr("class", "road-center-point")
-        .style("fill", "#ddd")
+        .style("fill", function (center) {
+          if ([3, 4, 8, 9, 13].includes(center.id)) {
+            return "#ff6b6b99";
+          }
+        })
         .on("mouseover", function () {
           d3.select(this).attr("r", 50);
         })
@@ -739,7 +743,7 @@ export default {
         console.log("data real change");
         this.drawMap(newDataParam, this.roadSec);
       } else {
-        this.drawROMap(newDataParam);
+        this.drawROMap2(newDataParam);
       }
       //  this.setShowMap();
       // } else {
