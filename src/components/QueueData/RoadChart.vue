@@ -1,5 +1,12 @@
 <template>
-  <div id="chart" ref="chartContainer"></div>
+  <div class="box">
+    <Card class="card">
+      <div id="chart" ref="chartContainer"></div>
+    </Card>
+    <Card class="card">
+      <div id="pie-chart" ref="pitchartContainer"></div>
+    </Card>
+  </div>
 </template>
 <script>
 import * as echarts from "echarts";
@@ -16,9 +23,6 @@ export default {
     drawData() {
       return this.$store.getters["queue/drawData"];
     },
-    roadId() {
-      return this.$store.getters["queue/roadId"];
-    },
   },
   watch: {
     drawData(newValue) {
@@ -29,27 +33,14 @@ export default {
         }
       }
     },
-    roadId() {
-      //console.log("watch", this.roadId);
-      this.chart.clear();
-
-      this.isSet = false;
-      this.$store.dispatch("queue/loadData");
-    },
   },
   methods: {
     createChart() {
       const that = this;
       // 导入数据
       const data = this.drawData;
-      // 创建Echarts堆叠面积图
-      if (this.chart) {
-        $("#chart").off("click");
-        echarts.dispose(this.chart);
-      }
-      var chart = echarts.init(this.$refs.chartContainer);
 
-      // var chart = echarts.init(document.getElementById("chart"));
+      var chart = echarts.init(this.$refs.chartContainer);
       var option = {
         tooltip: {
           trigger: "axis",
@@ -83,16 +74,15 @@ export default {
             }
             return res;
           },
+          position: function (pt) {
+            return [pt[0], "10%"];
+          },
         },
         legend: {
-          data: ["小型车辆", "手推or三轮", "非机动车", "卡车", "客车"],
+          data: ["trail3", "trail4", "trail8", "trail9", "trail10", "trail13"],
           type: "scroll",
-          selected: {
-            小型车辆: true,
-            手推or三轮: true,
-            非机动车: true,
-            卡车: true,
-            客车: true,
+          textStyle: {
+            color: "#333",
           },
         },
         xAxis: {
@@ -105,63 +95,64 @@ export default {
         yAxis: {
           type: "value",
         },
+        dataZoom: [
+          {
+            type: "inside",
+            start: 0,
+            end: 30,
+          },
+          {
+            start: 0,
+            end: 10,
+          },
+        ],
         series: [
           {
-            name: "小型车辆",
+            name: "trail3",
             type: "line",
-            stack: "1",
-            areaStyle: {},
-            data: data.map(function (d) {
-              return d["type1_num"];
-            }),
             smooth: true,
+            data: data.map(function (d) {
+              return d["trail3"];
+            }),
           },
           {
-            name: "手推or三轮",
+            name: "trail4",
             type: "line",
-            stack: "10",
-            areaStyle: {},
-            data: data.map(function (d) {
-              return d["type10_num"];
-            }),
             smooth: true,
+            data: data.map(function (d) {
+              return d["trail4"];
+            }),
           },
           {
-            name: "非机动车",
+            name: "trail8",
             type: "line",
-            stack: "3",
-            areaStyle: {},
-            data: data.map(function (d) {
-              return d["type3_num"];
-            }),
             smooth: true,
+            data: data.map(function (d) {
+              return d["trail8"];
+            }),
           },
           {
-            name: "卡车",
+            name: "trail9",
             type: "line",
-            stack: "4",
-            areaStyle: {},
-            data: data.map(function (d) {
-              return d["type4_num"];
-            }),
             smooth: true,
+            data: data.map(function (d) {
+              return d["trail9"];
+            }),
           },
           {
-            name: "客车",
+            name: "trail13",
             type: "line",
-            stack: "6",
-            areaStyle: {},
-            data: data.map(function (d) {
-              return d["type6_num"];
-            }),
             smooth: true,
+            data: data.map(function (d) {
+              return d["trail13"];
+            }),
           },
         ],
       };
       chart.setOption(option);
 
       // 鼠标悬浮
-      $("#chart").click(function (event) {
+      $("#chart").mousemove(function (event) {
         var option = chart.getOption();
         var selectedData = [];
         var pointInPixel = [event.offsetX, event.offsetY];
@@ -192,41 +183,130 @@ export default {
             };
           });
           // 更新饼图
-          that.$store.commit("queue/setPiechartData", data);
-          //updatePiechart(data);
+          updatePieChart(data);
         }
+
+        //   // 显示tooltip
+        //   var tooltip = $("#tooltip");
+        //   var chartOffset = chart.getDom().getBoundingClientRect();
+        // //   tooltip.html(getTooltipText(data));
+        //   tooltip.css({
+        //     display: "block",
+        //     top: event.pageY - chartOffset.top + 10,
+        //     left: event.pageX - chartOffset.left + 10
+        //   });
       });
 
       //选择不同类别
       chart.on("legendselectchanged", function (params) {
         var selected = params.selected;
-        that.$store.commit("queue/setSelected", selected);
+        pieChart.setOption({
+          legend: { selected: selected },
+        });
       });
 
       //鼠标离开时清空
       $("#chart").mouseleave(function (event) {
         // 隐藏tooltip
         // $("#tooltip").css("display", "none");
+
         // 更新饼图
-        //that.$store.commit("queue/setPiechartData", []);
-        //updatePiechart([]);
+        updatePieChart([]);
       });
+
+      // 创建饼图
+      var pieChart = echarts.init(this.$refs.pitchartContainer);
+
+      var pieOption = {
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b}: ({d}%)",
+        },
+        legend: {
+          orient: "horizontal",
+          left: 0,
+          data: ["trail3", "trail4", "trail8", "trail9", "trail10", "trail13"],
+        },
+        series: [
+          {
+            name: "percent",
+            type: "pie",
+            radius: [0, 110],
+            avoidLabelOverlap: true,
+            label: {
+              show: true,
+              position: "outside",
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 15,
+                color: "#333",
+                backgroundColor: "#fff",
+                padding: [4, 8],
+                borderRadius: 4,
+                borderColor: "#999",
+                borderWidth: 1,
+              },
+            },
+            labelLine: {
+              show: true,
+            },
+            data: [],
+          },
+        ],
+      };
+
+      pieChart.setOption(pieOption);
+
+      function updatePieChart(data) {
+        var pieData = [];
+        data.forEach(function (item) {
+          pieData.push({
+            name: item.name,
+            value: item.percent,
+          });
+        });
+        pieChart.setOption({
+          series: [
+            {
+              data: pieData,
+            },
+          ],
+        });
+      }
       this.chart = chart;
     },
   },
   created() {
-    console.log(this.roadId);
-    this.$store.dispatch("queue/loadData");
+    this.$store.dispatch("queue/loadRoadData");
     //console.log("in created:", this.drawData);
   },
 };
 </script>
 <style scoped>
-#chart {
-  /* border: 1px solid #000; */
-  grid-row: 1/-1;
+.card {
+  padding: 0.8rem 1.2rem;
+}
+.box {
   height: 100%;
   width: 100%;
+  display: flex;
+  gap: 2vw;
+  padding: 1vw;
+  align-items: center;
+  justify-content: center;
+}
+#chart {
+  width: 700px;
+  height: 500px;
+  float: left;
+}
+
+#pie-chart {
+  width: 400px;
+  height: 500px;
+  float: right;
 }
 
 .tooltip {

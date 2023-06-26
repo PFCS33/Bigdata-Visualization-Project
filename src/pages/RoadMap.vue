@@ -120,6 +120,14 @@
           ></path>
         </svg>
       </button>
+      <Button
+        label="check main trail"
+        v-if="queueMode"
+        class="jump-to-road-btn"
+        size="small "
+        @click="$router.push('/roadchart')"
+      >
+      </Button>
       <MapComponent
         v-if="loadDone"
         :editMode="editMode"
@@ -133,7 +141,7 @@
       :class="{ 'padding-card': queueMode, 'no-border': !queueMode }"
     >
       <Card v-if="queueMode && animationDone" class="roadId-label">
-        RoadId: {{ roadId }}
+        当前路段号: {{ roadId }}
       </Card>
 
       <QueueChart v-if="queueMode && animationDone"></QueueChart>
@@ -487,7 +495,11 @@ export default {
   cursor: pointer;
   position: absolute;
 }
-
+.jump-to-road-btn {
+  position: absolute;
+  left: 15%;
+  top: 5%;
+}
 .number-input-box {
   width: 3vw;
 }

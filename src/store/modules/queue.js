@@ -8,6 +8,7 @@ export default {
       drawData: null,
       selected: null,
       piechartData: null,
+      roadData: null,
     };
   },
   getters: {
@@ -22,6 +23,9 @@ export default {
     },
     roadId(state) {
       return state.roadId;
+    },
+    roadData(state) {
+      return state.roadData;
     },
   },
   mutations: {
@@ -39,8 +43,28 @@ export default {
     setRoadId(state, paylaod) {
       state.roadId = paylaod;
     },
+    setRoadData(state, paylaod) {
+      state.roadData = paylaod;
+    },
   },
   actions: {
+    loadRoadData(context, _payload) {
+      const path = "../../../public/data/queue/sum2.csv";
+      d3.csv(path, d3.autoType).then(function (data) {
+        // 将字符串转换成数字
+        data.forEach(function (d) {
+          d["trail3"] = +d["trail3"];
+          d["trail4"] = +d["trail4"];
+          d["trail8"] = +d["trail8"];
+          d["trail9"] = +d["trail9"];
+          d["trail13"] = +d["trail13"];
+        });
+        //console.log("in actions:", data);
+        context.commit("setDrawData", data);
+        console.log("loadDone");
+        console.log(data);
+      });
+    },
     loadData(context, _payload) {
       const roadId = context.getters["roadId"];
       let file = null;
@@ -61,8 +85,8 @@ export default {
         });
         //console.log("in actions:", data);
         context.commit("setDrawData", data);
-        console.log("loadDone");
-        console.log(data);
+        // console.log("loadDone");
+        //console.log(data);
       });
     },
   },

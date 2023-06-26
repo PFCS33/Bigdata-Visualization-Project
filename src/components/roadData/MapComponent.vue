@@ -301,6 +301,147 @@ export default {
         .attr("dominant-baseline", "middle")
         .attr("class", "road-center-text");
     },
+    drawROMap2(dataList) {
+      const that = this;
+      // console.log("this is ROmap");
+      // 获取 SVG 元素的宽度和高度
+      const svg = d3.select(".map");
+      const width = parseInt(svg.style("width"), 10);
+      const height = parseInt(svg.style("height"), 10);
+      svg.selectAll("g").remove();
+
+      // 为了多个map能在一个地图里显示，采用统一的映射比例
+      const xExtent = [-580, 450];
+      const yExtent = [-650, 250];
+      // console.log(`x: [${xExtent}]`);
+      //console.log(`y:[${yExtent}]`);
+      // 创建一个线性比例尺来将局部坐标映射到屏幕像素坐标
+      const xScale = d3.scaleLinear().domain(xExtent).range([0, width]);
+      const yScale = d3.scaleLinear().domain(yExtent).range([0, height]);
+      //console.log(width, height);
+      const colorList = {
+        boundary: "#fd7e14",
+        crosswalk: "#40c057",
+        lane: "#4c6ef5",
+        signal: "#FF00FF",
+        stopline: "#be4bdb",
+      };
+
+      // 绘制地理路径
+      dataList.forEach((data) => {
+        const type = data.features[0].geometry.type;
+        const color = colorList[data.name];
+        const name = data.name;
+        //console.log(type);
+        if (type == "LineString") {
+          svg
+            .append("g")
+            .selectAll("path")
+            .data(data.features)
+            .join("path")
+            .attr("d", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const pathData = coordinates.map(function (coord) {
+                const x = xScale(coord[0]);
+                const y = yScale(coord[1]);
+                return [x, y];
+              });
+              return "M" + pathData.join("L");
+            })
+            .style("fill", "none")
+            .style("stroke", color)
+            .style("stroke-width", 0.4)
+            .attr("pointer-events", "all");
+        } else if (type == "Polygon") {
+          // 绘制地理多边形
+          svg
+            .append("g")
+            .selectAll("polygon")
+            .data(data.features)
+            .join("polygon")
+            .attr("points", function (feature) {
+              const coordinates = feature.geometry.coordinates[0];
+              const points = coordinates.map(function (coord) {
+                const x = xScale(coord[0]);
+                const y = yScale(coord[1]);
+                return [x, y];
+              });
+              return points.join(" ");
+            })
+            .style("fill", "none")
+            .style("stroke", color)
+            .attr("pointer-events", "all");
+        } else if (type == "Point") {
+          // 绘制地理点
+          svg
+            .append("g")
+            .selectAll("circle")
+            .data(data.features)
+            .join("circle")
+            .attr("cx", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const x = xScale(coordinates[0]);
+              return x;
+            })
+            .attr("cy", function (feature) {
+              const coordinates = feature.geometry.coordinates;
+              const y = yScale(coordinates[1]);
+              return y;
+            })
+            .attr("r", 1)
+            .style("fill", "none")
+            .style("stroke", color)
+            .style("stroke-width", 0.5)
+            .attr("pointer-events", "all");
+        }
+      });
+      const roadCenter = this.roadCenter;
+      const roadCenterGroup = svg.append("g");
+      roadCenterGroup
+        .append("g")
+        .selectAll("circle")
+        .data(roadCenter)
+        .join("circle")
+        .attr("cx", function (center) {
+          return xScale(center.coord[0]);
+        })
+        .attr("cy", function (center) {
+          return yScale(center.coord[1]);
+        })
+        .attr("r", 30)
+        .attr("class", "road-center-point")
+        .style("fill", "#ddd")
+        .on("mouseover", function () {
+          d3.select(this).attr("r", 50);
+        })
+        .on("mouseout", function () {
+          d3.select(this).attr("r", 30);
+        })
+        .on("click", function () {
+          const centerData = d3.select(this).datum(); // 获取绑定的数据
+          const centerId = centerData.id;
+          that.$emit("center-click");
+          that.$store.commit("queue/setRoadId", centerId);
+          // console.log("center", centerId);
+        });
+      roadCenterGroup
+        .append("g")
+        .selectAll("text")
+        .data(roadCenter)
+        .join("text")
+        .attr("x", function (center) {
+          return xScale(center.coord[0]);
+        })
+        .attr("y", function (center) {
+          return yScale(center.coord[1]);
+        })
+        .text(function (center) {
+          return center.id; // 设置文本内容，这里示例为 "Text" + id
+        })
+        .style("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("class", "road-center-text");
+    },
 
     drawMap(dataList, roadSecId) {
       // console.log("this is editmap!!!");
@@ -617,7 +758,7 @@ export default {
     if (this.editMode === true) {
       this.drawMap(this.dataParam);
     } else {
-      this.drawROMap(this.dataParam);
+      this.drawROMap2(this.dataParam);
     }
     const svg = d3.select(".map");
     const width = parseInt(svg.style("width"), 10);

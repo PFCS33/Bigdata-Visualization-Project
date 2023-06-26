@@ -59,13 +59,7 @@ export default {
           orient: "horizontal",
 
           left: 10,
-          data: [
-            "type1_num",
-            "type10_num",
-            "type3_num",
-            "type4_num",
-            "type6_num",
-          ],
+          data: ["小型车辆", "手推or三轮", "非机动车", "卡车", "客车"],
         },
         series: [
           {
