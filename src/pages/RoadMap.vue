@@ -559,4 +559,8 @@ export default {
   opacity: 1; /* 平移隐藏 */
   /* transform: translateX(300px); */
 }
+
+.debug {
+  display: none;
+}
 </style>

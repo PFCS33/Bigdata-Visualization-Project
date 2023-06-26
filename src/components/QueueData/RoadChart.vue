@@ -1,10 +1,13 @@
 <template>
   <div class="box">
-    <Card class="card">
+    <Card class="card card1">
       <div id="chart" ref="chartContainer"></div>
     </Card>
-    <Card class="card">
+    <Card class="card card2">
       <div id="pie-chart" ref="pitchartContainer"></div>
+    </Card>
+    <Card class="card3">
+      <img src="/public/data/main_trail.png" alt="main trail" class="img" />
     </Card>
   </div>
 </template>
@@ -288,14 +291,33 @@ export default {
 .card {
   padding: 0.8rem 1.2rem;
 }
+.card1 {
+  grid-row: 1/-1;
+  grid-column: 1;
+}
+.card2 {
+  grid-row: 1;
+  grid-column: 2;
+}
+.card3 {
+  grid-column: 2;
+  grid-row: 2;
+}
+.img {
+  width: 100%;
+  height: 100%;
+}
 .box {
   height: 100%;
   width: 100%;
-  display: flex;
+  /* display: flex; */
   gap: 2vw;
   padding: 1vw;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 2fr 1fr;
 }
 #chart {
   width: 700px;
@@ -305,7 +327,7 @@ export default {
 
 #pie-chart {
   width: 400px;
-  height: 500px;
+  height: 100%;
   float: right;
 }
 
