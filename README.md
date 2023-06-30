@@ -11,8 +11,7 @@
   - 安装 node.js: [Node.js (nodejs.org)](https://nodejs.org/en)
   - 安装 Vite (作者用的npm): [Vite | 下一代的前端工具链 (vitejs.cn)](https://vitejs.cn/vite3-cn/)
 
-
-### 1. clone 本项目到本地
+### 1. git clone 本项目到本地
 
 ### 2. 项目依赖安装
 

@@ -297,6 +297,7 @@ export default {
       this.queueMode = !this.queueMode;
       this.swichMode = !this.swichMode;
       this.animationDone = false;
+      this.$store.commit("queue/setRoadId", 0);
     },
 
     handleTransitionEnd(event) {
